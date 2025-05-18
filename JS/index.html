@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS advance Concept</title>
+    <script src="./index.js"></script>
+  </head>
+  <body>
+    <button onclick="startLeak()">启动泄漏</button>
+    <button onclick="stop()">停止（不彻底）</button>
+
+      let timers = []; // 存储未清理的定时器
+
+      function startLeak() {
+        // 1. 创建一个占用大量内存的对象
+        const bigData = new Array(100000000).fill("*"); // 约 4MB 内存
+
+        // 2. 定时器内部引用了 bigData（闭包）
+        const timer = setInterval(() => {
+          console.log("数据大小:", bigData.length);
+        }, 100);
+
+        timers.push(timer); // 保存定时器，但未清理旧定时器
+      }
+
+      function stop() {
+        // 3. 仅清除最后一个定时器（错误示例）
+        if (timers.length > 0) {
+          clearInterval(timers.pop());
+        }
+      }
+    </script>
+  </body>
+</html>
