@@ -16,7 +16,16 @@
 #### 2、如何解决使用Git合并代码时的冲突？
 - 代码冲突：当多个分支修改同一个文件同一处代码，会产生冲突。常用场景：git merge /rebase /cherry-pick / pull会出现冲突
 - 步骤
-  定位冲突文件(git status查看冲突文件) => 手动编辑冲突文件 => 编辑提交远程，并标记冲突已完成(git add/commit)
-#### 3、git rebase/merge 区别？
-- git rebase用于整理历史提交
-- git merge用于合并代码
+  定位冲突文件(git status查看冲突文件) => 手动编辑冲突文件 => 编辑并标记冲突已完成(git add/commit),提交到远程仓库
+
+#### 3、git pull vs git fetch
+- git pull = git fetch + merge
+
+### 4、git merge vs rebase ?
+
+
+### 5、git reset vs git revert?
+
+
+
+### 6、git stash 用法及应用场景

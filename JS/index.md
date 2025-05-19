@@ -125,9 +125,10 @@ function throttle(fn, interval = 300) {
 ```
 
 #### 7、如何避免闭包导致的内存泄漏？
- - 及时解除不再使用的引用（如移除事件监听）
- - 使用 WeakMap 或 WeakSet 管理关联数据。
- - 清除定时器/事件监听等
+
+- 及时解除不再使用的引用（如移除事件监听）
+- 使用 WeakMap 或 WeakSet 管理关联数据。
+- 清除定时器/事件监听等
 
 #### 8、谈一下内存泄漏，及常用场景及解决方案？
 
@@ -261,7 +262,7 @@ function throttle(fn, interval = 300) {
 
   ```md
   增量回收 ​​：将垃圾回收任务拆分为多个小任务，穿插在脚本执行间隙，减少卡顿。
-  ​空闲回收 ​​：在浏览器空闲时段（如 requestIdleCallback）执行回收，避免影响用户体验。
+  ​ 空闲回收 ​​：在浏览器空闲时段（如 requestIdleCallback）执行回收，避免影响用户体验。
   ```
 
 #### 10、谈一下 JS 中的高阶函数(HOF)？
@@ -589,7 +590,7 @@ console.log([...flatten(arr)]);
   - lodash 库的 shuffle 方法 (推荐)
 - 打乱数组方法的优缺点
   - sort + Math.random()随机分布不均匀，时间复杂度 O(n log n)（低效）
-  -
+  - Fisher-Yates 洗牌算法
 - 使用场景
   - 随机播放音乐列表
   - 生成随机测试数据
@@ -624,16 +625,18 @@ const shuffle = (arr) =>
 
 // 随机映射法(不推荐)：为每个元素生成随机数作为权重，重新排序
 const shuffled = arr
-  .map(v => ({ value: v, rand: Math.random() }))
+  .map((v) => ({ value: v, rand: Math.random() }))
   .sort((a, b) => a.rand - b.rand)
-  .map(v => v.value);
+  .map((v) => v.value);
 
 // lodash中的shuffle
-import { shuffle } from 'lodash';
+import { shuffle } from "lodash";
 const shuffled = shuffle(arr);
 
 // 测试 Fisher-Yates 算法的均匀性
-const count = Array(5).fill(0).map(() => Array(5).fill(0));
+const count = Array(5)
+  .fill(0)
+  .map(() => Array(5).fill(0));
 for (let i = 0; i < 100000; i++) {
   const arr = [0, 1, 2, 3, 4];
   const shuffled = shuffle(arr);
@@ -642,41 +645,286 @@ for (let i = 0; i < 100000; i++) {
 console.log("位置分布统计:", count);
 ```
 
-#### 20、JS中的防抖（Debounce）节流（Throttle） ？
-- 概念： JS中的防抖和节流都是控制高频事件执行的频率。常用于`resize`，`input`,`scroll`等场景。
+#### 20、JS 中的防抖（Debounce）节流（Throttle） ？
+
+- 概念： JS 中的防抖和节流都是控制高频事件执行的频率。常用于`resize`，`input`,`scroll`等场景。
 - 防抖节流实现方式对比
-  - 防抖(Debounce): 事件首次触发，回调延迟执行，若在延迟时间内重新触发,则重新计时。
+
+  - 防抖(Debounce): 事件首次触发，回调延迟执行，若在延迟时间内重新触发,则重新计时
+    - 特点：连续操作后延迟执行 (只执行最后一次)
+
   ```js
-   // 定时器(基础版)
+  // 定时器(基础版)： 事件首次触发需要延迟等待，无法立即执行
+  function debounce(func, dela = 300) {
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  }
 
-   // 定时器(高级版，带immediate选项)
-
-   
-   // 时间戳版
-
+  // 定时器(高级版，带immediate选项,支持立即执行): 支持事件首次触发，立即执行： 最后一次可能不执行
+  function debounce(func, delay, immediate = false) {
+    let timer = null;
+    return function (...args) {
+      const context = this;
+      if (timer) clearTimeout(timer);
+      if (immediate && !timer) {
+        func.apply(context, args);
+      }
+      timer = setTimeout(() => {
+        timer = null;
+        if (!immediate) func.apply(context, args);
+      }, delay);
+    };
+  }
   ```
 
-  
-  - 节流(Throttle)
+  - 节流(Throttle): 事件触发后，固定间隔时间内只执行一次
+    - 特点：固定频率执行
 
+  ```js
+  // 时间戳版 (基础版): 首次触发立即执行,最后一次触发可能在时间间隔外，导致未执行
+  function throttle(func, delay) {
+    let lastTime = 0;
+    return function (...args) {
+      const now = Date.now();
+      if (now - lastTime >= delay) {
+        func.apply(this, args);
+        lastTime = now;
+      }
+    };
+  }
+  // 定时器版(基础版): 首次触发不会立即执行, 最后一次触发会延迟执行
+  function throttle(func, delay) {
+    let timer;
+    return function (...args) {
+      if (!timer) {
+        timer = setTimeout(() => {
+          func.apply(this, args);
+          timer = null;
+        }, delay);
+      }
+    };
+  }
 
+  // 高级版(时间戳结合定时器): 首次立即执行，最后一次触发保证执行, 代码复杂度高
+  function throttle(func, delay) {
+    let lastTime = 0;
+    let timer = null;
+    return function (...args) {
+      const context = this;
+      const now = Date.now();
+      const remaining = delay - (now - lastTime);
 
+      if (remaining <= 0) {
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
+        func.apply(context, args);
+        lastTime = now;
+      } else if (!timer) {
+        timer = setTimeout(() => {
+          func.apply(context, args);
+          lastTime = Date.now();
+          timer = null;
+        }, remaining);
+      }
+    };
+  }
+  ```
 
-
+- 总结
+  - 防抖：适合「最终状态」场景（如输入停止后搜索）。
+  - 节流：适合「过程控制」场景（如滚动时计算位置）。
+  - 项目中实际选择：
+    - 简单场景用基础版本。
+    - 需要首次/最后一次控制时用混合版本
+    - 复杂项目推荐使用 Lodash 或自行封装可配置版本
 
 #### 21、EventLoop(事件循环)是什么？
 
-
-<!-- DOM -->
+- 概念：EventLoop是JS处理异步任务的调度机制，通过循环调用栈（callStack）和 任务队列（Task Queue）实现非阻塞执行。
+- 宏任务(MacroTask)和微任务(MicroTask)分类
+  - 宏任务由宿主环境（Node/浏览器）触发，进入宏任务队列
+    - script（整体代码）
+    - setTimeout / setInterval
+    - setImmediate（Node.js）
+    - I/O 操作（文件读写、网络请求）
+    - UI 渲染（浏览器）
+    - DOM事件回调
+    - requestAnimationFrame（浏览器）
+  - 微任务由JS引擎触发，进入微任务队列
+    - Promise.then/catch/finally
+    - async/await（底层基于 Promise）
+    - queueMicrotask
+    - MutationObserver（浏览器）
+    - process.nextTick（Node.js）
+- 事件循环执行顺序顺序
+  - 执行一次宏任务（script整体代码）
+  - JS主线程执行同步任务，放入callStack,执行完毕出栈
+  - 循环微任务队列，直至微任务队列清空； 如果出现微任务嵌套微任务(必须一次性清空)
+  - 执行宏任务
 
 #### 22、事件冒泡与事件捕获 ？
 
+- 事件冒泡和事件捕获是事件在 DOM 中传播的两个阶段
+- 事件流(3 个阶段)
+  - 捕获阶段（Capturing Phase）: 从根节点（window）向下传播到目标元素。
+  - 目标阶段（Target Phase）: 事件到达目标元素
+  - 冒泡阶段（Bubbling Phase）: 从目标元素向上冒泡到根节点
+- 阻止事件冒泡的`stopPropagation`和`stopImmediatePropagation` API 区别
+  - event.stopPropagation()：阻止事件进一步传播（不影响当前阶段的其他监听器）
+  - event.stopImmediatePropagation()：立即停止所有后续监听器执行
+- 浏览器兼容性
+  - 旧版 IE（≤8）仅支持冒泡，不支持捕获。
+  - 现代浏览器均支持完整的事件流模型。
+    > 多数事件默认在冒泡阶段触发， addEventListener 第三个参数 true 可启用捕获模式
+
+```js
+// 捕获阶段监听（父元素）
+document.getElementById("parent").addEventListener(
+  "click",
+  () => console.log("捕获阶段：父元素被触发"),
+  true // 启用捕获模式
+);
+// 核心要点：冒泡：自下而上，捕获： 自上而下
+```
+
 #### 23、事件委托？
+
+- 概念：事件委托也叫事件代理，是 JS 编程中利用`事件冒泡`优化事件处理的编程技巧，将子元素的事件监听绑定在父元素(或者外层元素上)上，借助`事件冒泡`和`e.target`统一处理多个子元素的事件。
+- 事件委托优势
+  - 单一监听，减少内存占用
+  - 动态增加子元素，无需重复绑定
+  - 集中处理事件，代码更简洁；避免内存泄漏风险(传统方式需要管理多个监听器的绑定和解绑，易遗漏导致内存泄漏)
+- 应用场景
+  - 动态元素及大量同类子元素场景
+
+```html
+<ul id="oul">
+  <li data-index="1">1</li>
+  <li data-index="2">2</li>
+  <li data-index="3">3</li>
+  <li data-index="4">4</li>
+  <li data-index="5">5</li>
+</ul>
+<script>
+  let oul = document.getElementById("oul");
+  let oli = document.querySelectorAll("ul>li");
+  oul.addEventListener("click", function (e) {
+    console.log(e.target, e.currentTarget, e.currentTarget === this);
+    [...oli].forEach((el) => {
+      el.classList.remove("active");
+    });
+    e.target.classList.add("active");
+  });
+</script>
+```
+
+> 注意区分 e.target(用户实际点击的元素) / e.currentTarget (绑定事件监听的元素，恒等于 this)
 
 #### 24、跨域及常见解决方式？
 
+- 跨域本质：浏览器的`同源策略`限制，当请求的协议、域名、端口任意一个不同，浏览器会拦截响应(请求实际已发送到服务器)
+- 解决方案及优缺点
 
-#### 25、localStorage/sessionStorage/cookie区别？
+  - JSONP(仅支持 GET,安全性低（易受 XSS 攻击）)
+    - 本质：利用<script> 标签的跨域能力，通过回调函数接收数据
+    - 适用场景：适用于老旧项目或需要兼容不支持 CORS 的浏览器
+    ```js
+    function handleResponse(data) {
+      console.log("Received:", data);
+    }
+    // 服务端需支持：返回 handleResponse({ data: ... }) 格式
+    const script = document.createElement("script");
+    script.src = "http://api.example.com/data?callback=handleResponse";
+    document.body.appendChild(script);
+    ```
+  - CORS(跨域资源共享)
 
+    - 本质: 服务端配置 HTTP 响应头"Access-Control-Allow-Origin"声明允许的跨域来源
+    - 适用场景：生产环境主流方案，需要服务端支持。
+
+    ```js
+    // Express 中间件; 服务器配置（Node）
+    app.use((req, res, next) => {
+      res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // 允许的域名
+      res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE"); // 允许的方法
+      res.header("Access-Control-Allow-Headers", "Content-Type, Authorization"); // 允许的请求头
+      res.header("Access-Control-Allow-Credentials", "true"); // 允许携带 Cookie
+      next();
+    });
+    ```
+
+  - 代理服务器(Proxy)
+
+    - 本质：前端请求同域代理服务器，由代理转发至目标服务器，绕过浏览器限制；(服务器与服务器之间不存在跨域问题)
+    - 开发环境 (vue/react),配置 proxy
+
+    ```js
+    module.exports = {
+      devServer: {
+        proxy: {
+          "/api": {
+            target: "http://api.example.com",
+            changeOrigin: true,
+            pathRewrite: { "^/api": "" },
+          },
+        },
+      },
+    };
+    ```
+
+    - 生产环境: Nginx 反向代理: 生产环境部署的标准方案
+
+    ```js
+    server {
+      listen 80;
+      server_name localhost;
+
+      location /api {
+        proxy_pass http://api.example.com; # 目标服务器
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        add_header Access-Control-Allow-Origin *; # 可选，也可在目标服务器配置 CORS
+      }
+    }
+    ```
+
+  - postMessage(H5):iframe 嵌套或多窗口间通信， 页面和其打开的新窗口数据通信
+  - websocket 协议：天然支持跨域通信
+
+  ```js
+  const socket = new WebSocket("ws://api.example.com");
+  socket.onmessage = (event) => {
+    console.log("Received:", event.data);
+  };
+  ```
+
+#### 25、localStorage/sessionStorage/cookie 区别？
+
+- 生命周期不同
+  - localStorage 永久存储,除非用户手动清除
+  - sessionStorage 会话级存储，标签页关闭失效
+  - 临时性 cookie(无 Expires 或 Max-Age 属性)，浏览器关闭后自动删除； 持久化 cookie（设置 Expires 或 Max-Age 属性）在过期前有效。
+- 存储容量不同
+  - localStorage 和 sessionStorage 大约 5MB(不同浏览器可能不同)
+  - cookie 大约 4kb(单个域名下 cookie 数量有限制)
+- 作用域不同
+  - localStorage 同源页面共享
+  - sessionStorage 仅限当前标签页
+  - cookie 同源页面共享（可设置路径和域名限制）
+- 是否自动发送服务器
+  - cookie 会随着 HTTP 请求每次携带 cookie,本地存储不会
+- 访问权限不同
+  - sessionStorage、sessionStorage 仅客户端可以访问
+  - cookie 客户端和服务端都可以访问
+- 安全性
+  - localStorage、sessionStorage 易受 XSS(恶意脚本)攻击
+  - cookie 可通过设置 HttpOnly、Secure、SameSite，提高安全性
 
 #### 26、
