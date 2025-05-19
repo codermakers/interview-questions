@@ -747,27 +747,81 @@ console.log("位置分布统计:", count);
 
 #### 21、EventLoop(事件循环)是什么？
 
-- 概念：EventLoop是JS处理异步任务的调度机制，通过循环调用栈（callStack）和 任务队列（Task Queue）实现非阻塞执行。
+- 概念：EventLoop 是 JS 处理异步任务的调度机制，通过循环调用栈（callStack）和 任务队列（Task Queue）实现非阻塞执行。
 - 宏任务(MacroTask)和微任务(MicroTask)分类
-  - 宏任务由宿主环境（Node/浏览器）触发，进入宏任务队列
+
+  - 宏任务由宿主环境（Node/浏览器）触发，进入宏任务队列；
     - script（整体代码）
     - setTimeout / setInterval
     - setImmediate（Node.js）
     - I/O 操作（文件读写、网络请求）
     - UI 渲染（浏览器）
-    - DOM事件回调
+    - DOM 事件回调
+    - postMessage
+    - MessageChannel
     - requestAnimationFrame（浏览器）
-  - 微任务由JS引擎触发，进入微任务队列
+      > PS: 宏任务之间的执行是串行的，即一个宏任务完成后，才会执行下一个宏任务.
+  - 微任务由 JS 引擎触发，进入微任务队列
     - Promise.then/catch/finally
     - async/await（底层基于 Promise）
     - queueMicrotask
     - MutationObserver（浏览器）
     - process.nextTick（Node.js）
+      > PS: 每个宏任务执行完毕后，会立即执行当前宏任务中产生的所有微任务，然后再执行下一个宏任务
+
 - 事件循环执行顺序顺序
-  - 执行一次宏任务（script整体代码）
-  - JS主线程执行同步任务，放入callStack,执行完毕出栈
-  - 循环微任务队列，直至微任务队列清空； 如果出现微任务嵌套微任务(必须一次性清空)
-  - 执行宏任务
+  - 执行一次宏任务（script 整体代码）
+  - JS 主线程执行同步任务，放入 callStack,执行完毕出栈
+  - 循环微任务队列，直至微任务队列清空； 如果出现微任务嵌套微任务(必须一次性清空),微任务嵌套宏任务，宏任务会被推迟到下一个事件循环（优先级低于当前微任务队列）
+  - 执行宏任务，如果宏任务嵌套微任务，这些微任务会立即执行，而不是等待下一个事件循环（微任务`插队`现象）
+- 关键性结论
+  - 微任务优先级优于宏任务
+  -
+- 面试题
+
+```js
+console.log("start");
+
+Promise.resolve().then(() => {
+  console.log("A1") 
+    Promise.resolve()
+      .then(() => {
+        console.log("A2-1");
+      })
+      .then(() => {
+        console.log("A2-2");
+      });
+});
+
+Promise.resolve()
+  .then(() => {
+    console.log("B1-1");
+    setTimeout(() => {
+      console.log("B2");
+    }, 0);
+  })
+  .then(() => {
+    console.log("B1-2");
+  });
+
+setTimeout(() => {
+  console.log("C1");
+  Promise.resolve().then(() => {
+    console.log("C2");
+  });
+}, 0);
+
+setTimeout(() => {
+  console.log("D1");
+  setTimeout(() => {
+    console.log("D2");
+  }, 0);
+}, 0);
+
+console.log("end");
+
+上面代码的执行顺序：
+```
 
 #### 22、事件冒泡与事件捕获 ？
 
