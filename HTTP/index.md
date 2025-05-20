@@ -6,9 +6,9 @@
 - 304 (Not Modified) 资源未修改（配合缓存头 If-Modified-Since 使用，减少带宽消耗）
 - 400​ (Bad Request): 请求语法错误（如参数格式错误、JSON 解析失败）
 - 401​​ (Unauthorized): 未认证（需提供有效身份凭证，如 JWT 失效）
-  ​ - ​403​​ (Forbidden) 无权限访问（已认证但权限不足）
+- ​403​​ (Forbidden) 无权限访问（已认证但权限不足）
 - ​​404​​ (Not Found) 资源不存在（URL 错误或资源已删除）
-  ​- ​405​​ (Method Not Allowed) 请求方法不允许（如用 GET 访问只支持 POST 的接口）
+- ​405​​ (Method Not Allowed) 请求方法不允许（如用 GET 访问只支持 POST 的接口）
 - 500 (Internal Server Error): 服务器内部错误
 - 502​ (Bad Gateway): 网关出错
 - 503 (Service Unavailable): 服务不可用（维护、过载或临时故障）
@@ -27,8 +27,8 @@
 #### 3、HTTP1.0、HTTP1.1、HTTP2.0 区别？
 
 - HTTP1.0
-  - 短链接(每次请求都需要新建一个TCP请求)
-  - 单域名托管(无Host头,单IP只能托管一个网站)
+  - 短链接(每次请求都需要新建一个 TCP 请求)
+  - 单域名托管(无 Host 头,单 IP 只能托管一个网站)
   - 仅支持 GET、POST、HEAD 方法
 - HTTP1.1
   - 支持持久连接（复用 TCP 通道（通过 Connection: keep-alive），但同一时间只能处理一个请求（管道化因实现复杂未普及））
@@ -40,7 +40,6 @@
   - 首部压缩
   - 多路复用
   - 支持服务器端主动推送
-
 
 #### 4、GET 与 POST 区别？
 

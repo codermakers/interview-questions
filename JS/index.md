@@ -783,7 +783,7 @@ console.log("位置分布统计:", count);
 console.log("start");
 
 Promise.resolve().then(() => {
-  console.log("A1") 
+  console.log("A1")
     Promise.resolve()
       .then(() => {
         console.log("A2-1");
@@ -821,6 +821,10 @@ setTimeout(() => {
 console.log("end");
 
 上面代码的执行顺序：
+  同步代码先执行： start - end
+  微任务队列:
+    A1->A2-1 -> A2 -2
+
 ```
 
 #### 22、事件冒泡与事件捕获 ？
@@ -899,7 +903,12 @@ document.getElementById("parent").addEventListener(
     document.body.appendChild(script);
     ```
   - CORS(跨域资源共享)
-
+    - 什么情况下需要Cors (跨源的HTTP请求)
+       - 由 XMLHttpReques 或者Fetch API 发起的跨源 HTTP 请求
+       - Web 字体（CSS中通过 @font-face 使用跨源字体资源）
+       - WebGL 贴图
+       - 使用 drawImage() 将图片或视频画面绘制到 canvas
+       - 来自图像的 CSS 图形等
     - 本质: 服务端配置 HTTP 响应头"Access-Control-Allow-Origin"声明允许的跨域来源
     - 适用场景：生产环境主流方案，需要服务端支持。
 
@@ -913,6 +922,21 @@ document.getElementById("parent").addEventListener(
       next();
     });
     ```
+
+    - CORS 的预检请求(preflight)（非简单请求会比简单请求多一个预检过程）；预检请求是浏览器安全机制 ​​，确保跨域操作经过服务器授权.
+      - 简单请求需要满足的条件
+        - 请求方式为 GET、POST、HEAD 任意一种
+        - 请求头仅限制为
+          - Accept
+          - Accept-Language
+          - Content-Language
+          - Content-Type（且值需符合下一条件）
+          - Range（需配合特定条件，如分块请求）
+        - Content-Type 只能为 text/plain、multipart/form-data、application/x-www-form-urlencoded 任意一种
+        - 请求中没有使用 ReadableStream 对象
+        - 请求中的 XMLHttpRequestUpload 对象未注册任何事件监听器(如 onprogress),也就是说，给定一个 XMLHttpRequest 实例 xhr，没有调用 xhr.upload.addEventListener()，以监听该上传请求
+      - 非简单请求
+        - 不满足简单请求的条件的请求都是非简单请求，在发起真正的 HTTP 请求前，浏览器会增加一个 HTTP 预检的查询请求。确认服务器是否允许本次请求；得到浏览器的准确答复后，浏览器才会发起真正的请求。
 
   - 代理服务器(Proxy)
 
