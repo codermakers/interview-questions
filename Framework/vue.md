@@ -165,3 +165,14 @@ watch: {
   - beforeRouteLeave
 - 守卫钩子的执行顺序？
 
+#### 13、谈一下 Vuex的理解？
+- Vuex
+
+
+
+#### 14、Vuex中数据如何保持持久化?
+- 本地存储(localStorage/sessionStorage)
+- Vuex的第三方插件如vuex-persistedstate、vuex-persist等
+
+
+
