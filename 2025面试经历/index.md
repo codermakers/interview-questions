@@ -15,6 +15,12 @@
     - Promise.all 和Promise.race
     - 常见的Http状态码？
     - webapck的打包原理？
+- 2025.5.13
+  - 综合邮政
+  - 面试题
+    - 着重项目经验
+
+
 
 
     
