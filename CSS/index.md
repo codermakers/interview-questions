@@ -276,12 +276,22 @@
   ```
 
 - 扇形实现
+  - Border
   - 圆锥渐变 conic-gradient 语法
   - 圆角裁剪 + 旋转法
   - clip-path 路径裁剪
   - SVG 背景图裁剪
 
   ```css
+  // border边框实现
+  .sector{
+    border: 100px solid transparent;
+    width: 0;
+    height: 0;
+    border-radius: 100px;
+    border-top-color: red;
+  }
+   // 圆锥渐变 conic-gradient 
   .sector-conic {
     width: 200px;
     height: 200px;
