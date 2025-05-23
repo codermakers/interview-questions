@@ -155,10 +155,10 @@
     - 微调元素位置(如图标偏移)
     - 作为 absolute 定位元素的参考容器 (子绝父相)
   - 注意事项：
-    - position:relative 对 table-*-group, table-row, table-column, table-cell, table-caption 元素无效
+    - position:relative 对 table-\*-group, table-row, table-column, table-cell, table-caption 元素无效
 - absolute(绝对定位)
   - 特征
-    - 相对于`包含块`进行偏移，包含块可简单理解为最近非static定位的祖先元素
+    - 相对于`包含块`进行偏移，包含块可简单理解为最近非 static 定位的祖先元素
     - 脱离文档流，不占位原位置空间，注意此时元素的`display: block`,但是表现为 inline-block 特性,默认值 100%失效
   - 应用场景：
     - 常配合父元素 relative 布局，
@@ -175,88 +175,126 @@
   - 应用场景：
     - 吸顶效果、侧边栏跟随滚动
   - 注意事项(`sticky生效`的前提条件)
-    - 必须设置元素top、right、bottom 或 left 中的任意一个值
-    - 父元素的overflow必须为visble(默认)，否则失效
-    - 父元素的高度必须大于sticky的元素高度。
+    - 必须设置元素 top、right、bottom 或 left 中的任意一个值
+    - 父元素的 overflow 必须为 visble(默认)，否则失效
+    - 父元素的高度必须大于 sticky 的元素高度。
 
 #### 6、隐藏一个元素的方式及区别？
-- display: none: 
+
+- display: none:
   - 特点：
-    - 元素完全从DOM中移除，不占据空间，子元素也会隐藏
+    - 元素完全从 DOM 中移除，不占据空间，子元素也会隐藏
     - 会触发回流与重绘
     - 无法响应事件
 - visibility: hidden
-   - 特点：
-    - 元素不可见，占据原位置空间，子元素也会隐藏
-    - 会触发重绘，但不会触发回流
-    - 无法响应事件
+  - 特点：
+  - 元素不可见，占据原位置空间，子元素也会隐藏
+  - 会触发重绘，但不会触发回流
+  - 无法响应事件
 - opacity: 0
-   - 特点：
-    - 元素完全透明，但保留空间和交互性
-    - 会触发重绘，但不会触发回流
-    - 可响应事件
-- width和height为0，可能导致文本溢出，需设置overflow:hidden
-- 通过定位或者marign将元素移出视口
-
+  - 特点：
+  - 元素完全透明，但保留空间和交互性
+  - 会触发重绘，但不会触发回流
+  - 可响应事件
+- width 和 height 为 0，可能导致文本溢出，需设置 overflow:hidden
+- 通过定位或者 marign 将元素移出视口
 
 #### 7、 CSS 权重计算方式
 
-!important > 内联样式> id > class/属性选择器/伪类选择器 > 标签选择器/伪元素选择器 
-
+!important > 内联样式> id > class/属性选择器/伪类选择器 > 标签选择器/伪元素选择器
 
 #### 8、BFC(Block Formatting Context)： 块级格式化上下文
-- 概念： BFC是CSS渲染页面用于控制块级元素布局的一个独立渲染区域。
-- 触发BFC的条件
+
+- 概念： BFC 是 CSS 渲染页面用于控制块级元素布局的一个独立渲染区域。
+- 触发 BFC 的条件
   - 根元素 <html>。
   - float 值不为 none
   - position 值为 absolute 或 fixed
   - display 值为 inline-block、table-cell、table-caption、flex、inline-flex、grid、inline-grid
   - overflow 值不为 visible（如 hidden、auto、scroll）
   - contain 值为 layout、content 或 strict（CSS Containment Module）
-  ...
-以上条件满足其一即可。
-- BFC的特性
-  - 独立的渲染区域: BFC内部的元素不会影响外部
+    ...
+    以上条件满足其一即可。
+- BFC 的特性
+  - 独立的渲染区域: BFC 内部的元素不会影响外部
   - 垂直方向排列规则：块级元素依次垂直分布
-  - 同一BFC内部相邻元素会出现margin外边距合并现象。不同的BFC外边距不会
-  - 包含浮动元素：BFC会计算浮动元素高度，避免高度塌陷问题
+  - 同一 BFC 内部相邻元素会出现 margin 外边距合并现象。不同的 BFC 外边距不会
+  - 包含浮动元素：BFC 会计算浮动元素高度，避免高度塌陷问题
   - 阻止浮动覆盖： BFC 区域不会与浮动元素重叠
 - 应用场景
   本质：通过隔离布局环境，解决 CSS 中的常见布局问题（如浮动、边距合并）
 - 其他的格式上下文
-   - IFC(行内格式化上下文)
-   - FFC(弹性格式化上下文)
-   - GFC(网格格式化上下文)
+  - IFC(行内格式化上下文)
+  - FFC(弹性格式化上下文)
+  - GFC(网格格式化上下文)
 
 #### 9、层叠上下文(Stacking context)
 
-
-
 #### 10、包含块(Containing Block)
-- 概念:  
-- 确定一个元素的包含块的条件：依据于该元素的position属性
-   - 如果是relative/static，包含块就是最近的块级祖先元素的内容区
-   - 如果是absolute,包含块就是最近的position不为static的祖先元素的内边距区域
-   - 如果是fixed,包含块是视口(大部分情况下是)
-   - 如果是sticky,包含块是最近的滚动容器的内容区域（通常是父级或祖先元素）
+
+- 概念:
+- 确定一个元素的包含块的条件：依据于该元素的 position 属性
+  - 如果是 relative/static，包含块就是最近的块级祖先元素的内容区
+  - 如果是 absolute,包含块就是最近的 position 不为 static 的祖先元素的内边距区域
+  - 如果是 fixed,包含块是视口(大部分情况下是)
+  - 如果是 sticky,包含块是最近的滚动容器的内容区域（通常是父级或祖先元素）
 - 作用: 用于计算元素尺寸和位置
-   - 当某些属性被赋予百分比，依赖于这个元素的包含块
-     - height、top 及 bottom 属性根据包含块的 height 计算百分比值
-     - width、left、right、padding 和 margin 属性根据包含块的 width 计算百分比值
+  - 当某些属性被赋予百分比，依赖于这个元素的包含块
+    - height、top 及 bottom 属性根据包含块的 height 计算百分比值
+    - width、left、right、padding 和 margin 属性根据包含块的 width 计算百分比值
 
 #### 11、如何实现一个三角形、扇形、圆形、梯形？
+
 - 三角形实现
-```css
 
+  - border 边框
+  - clip-path 裁剪
+  - svg 作为背景图
 
-```
-
+  ```css
+  /* border边框法 */
+  .triangle {
+    width: 0;
+    height: 0;
+    border: 10px solid #000;
+    border-color: transparent;
+    border-left-color: red;
+  }
+  /* clip-path裁剪: 可裁剪任意形状 */
+  .triangle-clip {
+    width: 20px;
+    height: 20px;
+    background: #f00;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* 三个顶点坐标 */
+  }
+  /* svg作为背景图*/
+  .triangle-svg {
+    width: 20px;
+    height: 20px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e74c3c" d="M0 0 L100 0 L50 100 Z"/></svg>');
+  }
+  ```
 
 - 扇形实现
+  - 圆锥渐变 conic-gradient 语法
+  - 圆角裁剪 + 旋转法
+  - clip-path 路径裁剪
+  - SVG 背景图裁剪
 
+  ```css
+  .sector-conic {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: conic-gradient(
+      #ff6b6b 0deg 90deg,
+      /* 扇形区域（0°~90°） */ transparent 90deg 360deg /* 透明剩余部分 */
+    );
+  }
+  ```
+
+> 圆锥渐变 conic-gradient 语法更多参考https://www.zhangxinxu.com/wordpress/2020/04/css-conic-gradient/
 
 - 圆形实现
-
-
 
 - 梯形实现

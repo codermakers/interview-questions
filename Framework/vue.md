@@ -166,9 +166,14 @@ watch: {
 - 守卫钩子的执行顺序？
 
 #### 13、谈一下 Vuex的理解？
-- Vuex
-
-
+- Vuex是Vue的一个状态管理库
+- 核心属性
+  - state: 状态
+  - getters: 基于状态派生出的计算属性
+  - mutations: 用于修改state,必须是同步函数
+  - actions: 用于提交mutations间接修改state, 允许异步操作
+  - modules: 模块用于将Vuex分割成多个模块,每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块。
+  - plugins: 用于扩展Vuex的功能, 比如Vuex的第三方插件如vuex-persistedstate可在此配置
 
 #### 14、Vuex中数据如何保持持久化?
 - 本地存储(localStorage/sessionStorage)
