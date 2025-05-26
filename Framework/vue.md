@@ -1,4 +1,6 @@
-### Vue2/3 高频面试题
+## Vue2/3 高频面试题
+
+### Vue2 相关面试题
 
 #### 1、`v-if` vs `v-show`
 
@@ -51,11 +53,11 @@ watch: {
   - EventBus(事件总线)、Vuex/pinia、provide/inject、`$attrs/$listeners(透传属和事件)`
 - 其他通信方式： 本地存储、window 存储共享数据
 
-#### 4、组件中 data 属性为什么是一个函数而不是对象？
+#### 5、组件中 data 属性为什么是一个函数而不是对象？
 
 - 为了保证组件数据的私有化
 
-#### 5、v-for 中的 Key 的作用？
+#### 6、v-for 中的 Key 的作用？
 
 - 帮助 Vue 方便高效追踪节点身份,优化虚拟 DOM 更新
 - 避免 Vue 复用同类型元素导致的渲染出错相关问题
@@ -75,7 +77,7 @@ watch: {
     - 输入框内容错位：原第三项（index=2）的输入框复用为 index=1，但数据未同步。
     - 状态混乱：如子组件内部状态（如输入值）被错误保留。
 
-#### 6、v-if 与 v-for 作用于同一个元素的优先级（不建议一起用）
+#### 7、v-if 与 v-for 作用于同一个元素的优先级（不建议一起用）
 
 - Vue2 中 v-for > v-if，由于 v-for 不管子项条件真假,都会先遍历所有，会导致性能浪费
 - Vue3 中 V-if > v-for，会导致逻辑出错；控制台直接报错
@@ -83,7 +85,7 @@ watch: {
   - 避免 v-for，v-if 同时作用在同一元素
   - 使用计算属性或者将 v-if 移到父元素上等方法避免这种问题
 
-#### 6、`$nextTick`
+#### 8、`$nextTick`
 
 - 概念：下次 DOM 更新循环结束之后执行延迟回调，方便安全的获取更新后的 DOM
 - 本质:它利用了 JavaScript 的 微任务队列（Microtask Queue）（如 Promise.then、MutationObserver）或降级为 宏任务（Macrotask）（如 setTimeout）来实现这一目标
@@ -109,11 +111,11 @@ watch: {
    }
   ```
 
-#### 6、谈一下 Vue 中的`双向数据绑定`？
+#### 9、谈一下 Vue 中的`双向数据绑定`？
 
 - 核心: 数据劫持 + 发布订阅
 
-#### 8、vue-router 两种模式`hash`与`history`的区别？
+#### 10、vue-router 两种模式`hash`与`history`的区别？
 
 - URL 美观度：
   - hash 模式带有`#`,history 模式比较美观
@@ -127,8 +129,9 @@ watch: {
 
   ```md
   <!-- 需要Nginx配置：否则刷新页面404 -->
+
   location / {
-    try_files $uri $uri/ /index.html;
+  try_files $uri $uri/ /index.html;
   }
   ```
 
@@ -136,26 +139,28 @@ watch: {
   - hash 模式对 SEO 支持度较差，不利于 SEO 抓取
   - history 模式较好,URL 更规范，利于 SEO 抓取
 
-#### 9、vue-router 中`$route`和`$router`的区别？
+#### 11、vue-router 中`$route`和`$router`的区别？
 
 - `$route`当前只读路由信息对象，包含当前路由详细信息(name,path,params,query 参数)等
 - `$router`路由实例,可控制路由的行为(跳转,返回)
 
-#### 10、vue-router 中路由跳转方式有哪些
-- 声明式导航：通过<router-link>跳转
-- 编程式导航：通过router实例上的方法实现跳转
+#### 12、vue-router 中路由跳转方式有哪些
 
-#### 11、vue-router 路由传参方式有哪些？
+- 声明式导航：通过<router-link>跳转
+- 编程式导航：通过 router 实例上的方法实现跳转
+
+#### 13、vue-router 路由传参方式有哪些？
+
 - 动态路由参数(Params)
 - 查询参数(Query)
 - 路由组件传参(Props)
 - 路由元信息(Meta)
 
-#### 12、vue-router 的路由守卫钩子有哪些？
+#### 14、vue-router 的路由守卫钩子有哪些？
 
 - 全局守卫
   - beforeEach
-- beforeResolve
+  - beforeResolve
   - afterEach
 - 路由独享守卫
   - beforeEnter
@@ -165,19 +170,30 @@ watch: {
   - beforeRouteLeave
 - 守卫钩子的执行顺序？
 
-#### 13、谈一下 Vuex的理解？
-- Vuex是Vue的一个状态管理库
+#### 15、谈一下 Vuex 的理解？
+
+- Vuex 是 Vue 的一个状态管理库
 - 核心属性
   - state: 状态
   - getters: 基于状态派生出的计算属性
-  - mutations: 用于修改state,必须是同步函数
-  - actions: 用于提交mutations间接修改state, 允许异步操作
-  - modules: 模块用于将Vuex分割成多个模块,每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块。
-  - plugins: 用于扩展Vuex的功能, 比如Vuex的第三方插件如vuex-persistedstate可在此配置
+  - mutations: 用于修改 state,必须是同步函数
+  - actions: 用于提交 mutations 间接修改 state, 允许异步操作
+  - modules: 模块用于将 Vuex 分割成多个模块,每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块。
+  - plugins: 用于扩展 Vuex 的功能, 比如 Vuex 的第三方插件如 vuex-persistedstate 可在此配置
 
-#### 14、Vuex中数据如何保持持久化?
+#### 16、Vuex 中数据如何保持持久化?
+
 - 本地存储(localStorage/sessionStorage)
-- Vuex的第三方插件如vuex-persistedstate、vuex-persist等
+- Vuex 的第三方插件如 vuex-persistedstate、vuex-persist 等
 
+### Vue3 相关面试题
 
+#### 1、Vue3 与 Vue2 相比,带来了哪些变化？
 
+#### 2、Vue3 中有哪些新特性？
+
+#### 3、`ref` 与 `reactive` 有什么区别？
+
+#### 4、`watch` 与 `watchEffect`有什么区别？
+
+#### 5、

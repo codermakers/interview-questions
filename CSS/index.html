@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sticky</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      body {
+        margin: o auto;
+      }
+      .triangle {
+        width: 0;
+        height: 0;
+        border: 10px solid #000;
+        border-color: transparent;
+        border-left-color: red;
+      }
+      .triangle-clip {
+        width: 20px;
+        height: 20px;
+        background: #f00;
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* 三个顶点坐标 */
+      }
+      .triangle-svg {
+        width: 20px;
+        height: 20px;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e74c3c" d="M0 0 L100 0 L50 100 Z"/></svg>');
+      }
+ 
+      .sector-container {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden; /* 隐藏溢出部分 */
+  position: relative;
+}
+
+.sector-rotate {
+  width: 100%;
+  height: 100%;
+  background: #4ecdc4;
+  transform-origin: left; /* 旋转原点 */
+  transform: rotate(45deg); /* 调整角度 */
+}
+    
+.box{
+    border: 100px solid transparent;
+    width: 0;
+    height: 0;
+    border-radius: 100px;
+    border-top-color: red;
+}
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <!-- <div class="triangle"></div>
+    <div class="triangle-clip"></div>
+    <div class="triangle-svg"></div>
+    <div class="sector-conic"></div> -->
+
+    <div class="sector-container">
+        <div class="sector-rotate"></div>
+      </div>
+  </body>
+</html>

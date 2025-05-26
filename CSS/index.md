@@ -308,3 +308,35 @@
 - 圆形实现
 
 - 梯形实现
+
+
+
+#### 12、重绘(repaint)与回流(也叫重排)(reflow)
+- 概念： 重绘与回流是浏览器渲染引擎更新页面的两种核心策略，直接影响页面性能
+
+- 触发回流的场景：元素的几何属性或布局发生改变，需重新计算布局
+
+  - 元素的几何属性变化：width、height、margin、padding、border、font-size
+  - 添加/删除可见的 DOM 元素
+  - 元素位置改变（position、float、display: flex 等）
+  - 窗口大小调整（resize 事件）
+  - 读取布局属性（offsetTop、scrollHeight、clientWidth 等，强制同步回流）
+> 回流一定触发重绘，重绘不一定触发回流
+
+- 触发重绘的场景: 元素外观变化（颜色、背景等）但布局不变;
+  - 外观属性变化：color、background、visibility、outline、border-radius。
+  - 不影响布局的样式修改：如阴影（box-shadow）、渐变（gradient）
+
+- 性能优化策略： 通过减少重绘，回流的次数
+  - 减少回流的次数
+    - 批量修改DOM
+    - 使用文档碎片DocumentFragment
+
+  ```
+
+
+
+
+  
+
+  
