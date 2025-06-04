@@ -131,7 +131,7 @@ watch: {
   <!-- 需要Nginx配置：否则刷新页面404 -->
 
   location / {
-  try_files $uri $uri/ /index.html;
+    try_files $uri $uri/ /index.html;
   }
   ```
 
@@ -189,11 +189,32 @@ watch: {
 ### Vue3 相关面试题
 
 #### 1、Vue3 与 Vue2 相比,带来了哪些变化？
-
+- 优化了Diff算法，增加了Patch Flag(静态标记)，只更新变化的节点:
+- 改进了响应式系统： 使用Proxy代替了Object.defineProperty
 #### 2、Vue3 中有哪些新特性？
+- Composition API 组合式API
+- Fragment 组件模板支持多个根节点
+- Suspense 用于处理异步组件加载状态
+- Teleport传送门
+- 更好的TS支持等
+...
 
 #### 3、`ref` 与 `reactive` 有什么区别？
+- 同：都用于创建响应式数据
+- 异:
+  - 适用类型
+    - ref可用于任何类型、reactive用于对象型(Array/Object/Map/Set等)
+  - 返回值
+    - ref返回值是RefImpl 对象(通过.value访问),在模板中自动解包； reactive返回的对象是Proxy代理对象,在模板中直接访问属性
+  - 支持替换整个对象
+    - ref可通过.value属性重新赋值替换整个对象，reactive不支持(可使用Object.assign()),会丢失响应性
+  - 响应式原理
+    - ref内部创建 RefImpl 对象，通过 .value 的 getter/setter 触发响应。对象类型的值会被自动转为 reactive（相当于 reactive(value)）,所以复杂对象推荐使用reactive。
+    - reactive 基于 ES6 Proxy 深度代理对象，拦截所有属性操作，性能损耗高，无法代理原始值
 
 #### 4、`watch` 与 `watchEffect`有什么区别？
+- 依赖收集
+  - watch 需要`显式指定源`(ref/reactive/getter),`默认不立即执行`; 一般可`访问旧值`; 可用于精确控制，依赖变化后的复杂操作。
+  - watchEffect`自动收集`回调函数中访问的响应式依赖，`创建时立即执行一次`,无法访问旧值；适用于多个依赖，副作用逻辑简单的场景；
 
 #### 5、

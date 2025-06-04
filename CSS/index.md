@@ -327,10 +327,11 @@
   - 外观属性变化：color、background、visibility、outline、border-radius。
   - 不影响布局的样式修改：如阴影（box-shadow）、渐变（gradient）
 
-- 性能优化策略： 通过减少重绘，回流的次数
+- 性能优化策略： 如何避免或者减少重绘与回流？
   - 减少回流的次数
     - 批量修改DOM
     - 使用文档碎片DocumentFragment
+    - 使用CSS transforms
 
   ```
 
