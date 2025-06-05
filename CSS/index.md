@@ -14,9 +14,9 @@
 
 #### 2、CSS 三大特性
 
-- 层叠性：
+- 层叠性:
 - 优先级(特异性)：
-- 继承性
+- 继承性:
 
 #### 3、介绍常用的 CSS 选择器？
 
@@ -291,7 +291,7 @@
     border-radius: 100px;
     border-top-color: red;
   }
-   // 圆锥渐变 conic-gradient 
+   <!-- 圆锥渐变 conic-gradient -->
   .sector-conic {
     width: 200px;
     height: 200px;
@@ -306,6 +306,7 @@
 > 圆锥渐变 conic-gradient 语法更多参考https://www.zhangxinxu.com/wordpress/2020/04/css-conic-gradient/
 
 - 圆形实现
+
 
 - 梯形实现
 

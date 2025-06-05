@@ -100,6 +100,22 @@ function myPromiseRace(promises) {
 - 冒泡排序(bubble sort)
   - 本质： 通过相邻元素比较大小，将最大值冒泡到数组末尾
 ```js
-function bubbleSort
+function bubbleSort(array){
+
+}
+
+```
+- 插入排序(InsertSort)
+```js
+function InsertSort(array){
+
+}
+
+```
+- 快排 (quick Sort)
+```js
+function QuickSort(array){
+  
+}
 
 ```

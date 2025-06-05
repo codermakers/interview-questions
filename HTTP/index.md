@@ -83,3 +83,9 @@
 
 ```
 #### 6、XSS(跨站脚本攻击)与CSRF(跨站请求伪造)
+
+- XSS攻击 (Cross-Site Script)
+   - 存储型
+   - 持久型
+   - 反射型
+- CSRF(Cross-site request forgery)
