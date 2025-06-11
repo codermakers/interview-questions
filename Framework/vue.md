@@ -190,8 +190,10 @@ watch: {
 
 #### 1、Vue3 与 Vue2 相比,带来了哪些变化？
 - 优化了Diff算法，增加了Patch Flag(静态标记)，只更新变化的节点:
-- 改进了响应式系统： 使用Proxy代替了Object.defineProperty
+- 改进了响应式系统： 使用Proxy代替了Object.defineProperty。
+
 #### 2、Vue3 中有哪些新特性？
+
 - Composition API 组合式API
 - Fragment 组件模板支持多个根节点
 - Suspense 用于处理异步组件加载状态

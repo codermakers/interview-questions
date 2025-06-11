@@ -362,31 +362,31 @@ const compose =
 #### 15、JS 对象中的深浅拷贝区别？深拷贝几种实现方式的优缺点、手动实现一个较完美的深拷贝
 
 - 区别：
-- 浅拷贝仅拷贝第一层属性(嵌套属性不复制)，对于引用类型拷贝的是引用地址。修改嵌套属性会影响原对象。
-- 深拷相当于递归复制所有层级的属性(包括嵌套属性),拷贝对象和原对象是两个完全独立的副本。修改嵌套属性不影响原对象。
+  - 浅拷贝仅拷贝第一层属性(嵌套属性不复制)，对于引用类型拷贝的是引用地址。修改嵌套属性会影响原对象。
+  - 深拷相当于递归复制所有层级的属性(包括嵌套属性),拷贝对象和原对象是两个完全独立的副本。修改嵌套属性不影响原对象。
 - 常见的深浅拷贝
-- shallow copy
-  - {...obj}
-  - Object.assign()
-  - Array.prototype.slice()
-  - Array.prototype.concat()
-- deepClone Copy
-  - JSON.parse(JSON.stringfy())
-  - deepClone(递归)
-  - 第三方库 lodash.deepClone 、jQuery 的 $.extend(true, {}, obj)
-  - 其他的 API,如 MessageChannel、History API、Notification API、structuredClone(JS 原生 API 存在兼容性问题)
+  - shallow copy
+    - {...obj}
+    - Object.assign()
+    - Array.prototype.slice()
+    - Array.prototype.concat()
+  - deepClone Copy
+    - JSON.parse(JSON.stringfy())
+    - deepClone(递归)
+    - 第三方库 lodash.deepClone 、jQuery 的 $.extend(true, {}, obj)
+    - 其他的 API,如 MessageChannel、History API、Notification API、structuredClone(JS 原生 API 存在兼容性问题)
 - 深拷贝实现方式的一些利与弊
-- JSON.parse(JSON.stringfy())对于可以被序列化的数据类型才可以进行拷贝，否则会出现属性丢失,报错问题，无法解决`循环引用`问题
-  - 无法处理 Symbol、function、undefined,循环引用
-  - Date 类型会被转成字符串(反序列化后无法恢复为 Date)
-  - ​RegExp​​、​​Map​​、​​Set​​ 等会变成空对象
-  - 无法解决循环引用问题
-- deepClone(递归手动实现)
-  - 灵活可控
-- 第三方库 lodash.deepClone 、jQuery 的 $.extend(true, {}, obj)较完美，生产环境推荐使用
-- structuredClone API(原生 API)，现代浏览器推荐使用
-  - 不支持 IE 和旧版浏览器，存在兼容性问题
-  - ​​ 无法处理函数 ​​：会抛出 DOMException 错误。
+  - JSON.parse(JSON.stringfy())对于可以被序列化的数据类型才可以进行拷贝，否则会出现属性丢失,报错问题，无法解决`循环引用`问题
+    - 无法处理 Symbol、function、undefined,循环引用
+    - Date 类型会被转成字符串(反序列化后无法恢复为 Date)
+    - ​RegExp​​、​​Map​​、​​Set​​ 等会变成空对象
+    - 无法解决循环引用问题
+  - deepClone(递归手动实现)
+    - 灵活可控
+  - 第三方库 lodash.deepClone 、jQuery 的 $.extend(true, {}, obj)较完美，生产环境推荐使用
+  - structuredClone API(原生 API)，现代浏览器推荐使用
+    - 不支持 IE 和旧版浏览器，存在兼容性问题
+    - ​​ 无法处理函数 ​​：会抛出 DOMException 错误。
 - 手动实现一个较完美的深拷贝？
 
 ```js
@@ -775,7 +775,7 @@ console.log("位置分布统计:", count);
   - 循环微任务队列，直至微任务队列清空； 如果出现微任务嵌套微任务(必须一次性清空),微任务嵌套宏任务，宏任务会被推迟到下一个事件循环（优先级低于当前微任务队列）
   - 执行宏任务，如果宏任务嵌套微任务，这些微任务会立即执行，而不是等待下一个事件循环（微任务`插队`现象）
 - 关键性结论
-  - 微任务优先级优于宏任务(nodejs相反)
+  - 微任务优先级优于宏任务(nodejs 相反)
 - 面试题
 
 ```js
@@ -902,12 +902,13 @@ document.getElementById("parent").addEventListener(
     document.body.appendChild(script);
     ```
   - CORS(跨域资源共享)
-    - 什么情况下需要Cors (跨源的HTTP请求)
-       - 由 XMLHttpReques 或者Fetch API 发起的跨源 HTTP 请求
-       - Web 字体（CSS中通过 @font-face 使用跨源字体资源）
-       - WebGL 贴图
-       - 使用 drawImage() 将图片或视频画面绘制到 canvas
-       - 来自图像的 CSS 图形等
+
+    - 什么情况下需要 Cors (跨源的 HTTP 请求)
+      - 由 XMLHttpReques 或者 Fetch API 发起的跨源 HTTP 请求
+      - Web 字体（CSS 中通过 @font-face 使用跨源字体资源）
+      - WebGL 贴图
+      - 使用 drawImage() 将图片或视频画面绘制到 canvas
+      - 来自图像的 CSS 图形等
     - 本质: 服务端配置 HTTP 响应头"Access-Control-Allow-Origin"声明允许的跨域来源
     - 适用场景：生产环境主流方案，需要服务端支持。
 
@@ -992,9 +993,9 @@ document.getElementById("parent").addEventListener(
   - localStorage 和 sessionStorage 大约 5MB(不同浏览器可能不同)
   - cookie 大约 4kb(单个域名下 cookie 数量有限制)
 - 作用域不同
-  - localStorage 同源页面共享
+  - localStorage 同源页面共享 -> 协议、端口、端口完全一致（如父域名example.com本地数据、与子域名中sub.example.com无法共享）
   - sessionStorage 仅限当前标签页
-  - cookie 同源页面共享（可设置路径和域名限制）
+  - cookie 同源页面共享（可设置路径和域名限制）；(如果需要父子域名cookie共享,可以通过显式设置 domain=.父域名)
 - 是否自动发送服务器
   - cookie 会随着 HTTP 请求每次携带 cookie,本地存储不会
 - 访问权限不同
@@ -1004,4 +1005,34 @@ document.getElementById("parent").addEventListener(
   - localStorage、sessionStorage 易受 XSS(恶意脚本)攻击
   - cookie 可通过设置 HttpOnly、Secure、SameSite，提高安全性
 
-#### 26、
+#### 26、script 中的async与defer区别是什么？
+ - 默认script会阻塞HTML解析： HTML解析 -> Script脚本下载 -> 执行脚本 -> 继续HTML解析
+ - async属性(异步)
+   ```js
+    <script src='1.js' async></script>
+    <script src='2.js' async></script>   
+    // 1.js与2.js执行顺序无法保证。
+   ```
+   - 浏览器不会阻塞HTML解析,与HTML解析并行加载，一旦下载完成，立即阻止HTML解析，执行脚本；
+   - 多个async脚本执行顺序不可控，谁先下载完谁先执行。不适合有依赖关系的脚本。
+   - 脚本可能访问不到完整的DOM(HTML解析可能未完成)
+  
+ - defer属性(延迟)
+   - 浏览器不会阻塞HTML解析,与HTML解析并行加载
+   - 在所有HTML解析完成后，按照文档顺序执行脚本；脚本能访问完整DOM；在DOMContentLoaded触发前执行。
+ - 
+ ```md
+
+  HTML 解析
+  ├── 遇到 async/defer 脚本 → 后台下载
+  ├── HTML 继续解析...
+  │
+  ├── async 行为：
+  │   ── 脚本下载完成 → 立即停止 HTML，执行脚本 → 恢复解析
+  │
+  ├── HTML 解析完成
+  │
+  └── defer 行为：
+      ── 按顺序执行所有 defer 脚本 → 触发 DOMContentLoaded
+ ```
+    

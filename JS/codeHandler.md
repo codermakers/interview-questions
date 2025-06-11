@@ -1,6 +1,6 @@
-#### JS 常见手写面试题‘
+### JS 常见手写面试题‘
 
-### 1、手动实现 Array.prototype 上面的 map/filter/reduce...
+#### 1、手动实现 Array.prototype 上面的 map/filter/reduce...
 
 ```js
 // myMap
@@ -36,19 +36,19 @@ Array.prototype.myReduce = function (callback, initialValue) {
 };
 ```
 
-### 2、手动实现 myCall、myApply、myBind 函数
+#### 2、手动实现 myCall、myApply、myBind 函数
 
 ```js
 
 ```
 
-### 3、手写防抖节流函数(基础版和高级版)
+#### 3、手写防抖节流函数(基础版和高级版)
 
 ```js
 
 ```
 
-### 4、手动实现 Promise.all/Promise.race/Promise.any/Promise.myAllSettled
+#### 4、手动实现 Promise.all/Promise.race/Promise.any/Promise.myAllSettled
 
 ```js
 // Promise.all
@@ -90,32 +90,47 @@ function myPromiseRace(promises) {
 }
 ```
 
-### 4、手动实现一个符合 PromiseA+ 规范的 myPromise
+#### 4、手动实现一个符合 PromiseA+ 规范的 myPromise
 
 ```js
 
 ```
 
-### 5、三大经典排序： 冒泡、插入、快排
+#### 5、三大经典排序： 冒泡、插入、快排
+
 - 冒泡排序(bubble sort)
   - 本质： 通过相邻元素比较大小，将最大值冒泡到数组末尾
+
 ```js
-function bubbleSort(array){
-
-}
-
+function bubbleSort(array) {}
 ```
+
 - 插入排序(InsertSort)
+
 ```js
-function InsertSort(array){
-
-}
-
+function InsertSort(array) {}
 ```
+
 - 快排 (quick Sort)
+
 ```js
-function QuickSort(array){
-  
+function QuickSort(array) {}
+```
+
+#### 6、树形结构转数组(扁平化)、数组转树形结构，写一个函数实现？
+
+```js
+function arrayToTree(array) {
+  let result = [];
+  array.forEach((node) => {
+    if (node.children && node.children.length) {
+      result = result.concat(arrayToTree(node.children));
+    } else {
+      if (node.children) delete node.children;
+      result.push(node);
+    }
+  });
 }
 
+function treeToArray(array) {}
 ```
