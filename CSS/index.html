@@ -1,71 +1,103 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sticky</title>
+    <title>Document</title>
     <style>
       * {
         margin: 0;
         padding: 0;
         list-style: none;
       }
-      body {
-        margin: o auto;
+
+      :root {
+        --gap: 10px;
+        --col-count: 3;
       }
+      .container {
+        overflow: hidden;
+        /* display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px; */
+        /* display: flex;
+        flex-wrap: wrap; */
+        /* gap: 10px; */
+        width: 600px;
+        height: 600px;
+        margin: 200px auto;
+        border: 1px solid #000;
+        /* margin-bottom: -10px;
+        margin-right: -10px; */
+      }
+      .item {
+        --col-count: 3;
+        width: calc(100% / 3 - var(--gap) * 2 / var(--col-count));
+        /* height: calc(100% / 3 - var(--gap) * 2 / var(--col-count)); */
+
+        aspect-ratio: 1 / 1;
+        float: left;
+        -right: var(--gap);
+        -bottom: var(--gap);
+        font-size: 18px;
+        text-align: center;
+        background-color: royalblue;
+      }
+      /* .item:nth-child(3n) {
+        margin-right: 0;
+      }
+      .item:nth-child(7) {
+        margin-bottom: 0;
+      }
+      .item:nth-child(8) {
+        margin-bottom: 0;
+      }
+      .item:nth-child(9) {
+        margin-bottom: 0;
+      } */
+      .round {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: red;
+      }
+
       .triangle {
         width: 0;
         height: 0;
-        border: 10px solid #000;
-        border-color: transparent;
-        border-left-color: red;
+        border: 50px solid transparent;
+        border-radius: 100%;
+        border-top-color: red;
       }
-      .triangle-clip {
-        width: 20px;
-        height: 20px;
-        background: #f00;
-        clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* 三个顶点坐标 */
+      .sector {
+        width: 0;
+        height: 0;
+        border: 100px solid transparent;
+        border-radius: 50%;
+        border-top-color: red;
       }
-      .triangle-svg {
-        width: 20px;
-        height: 20px;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e74c3c" d="M0 0 L100 0 L50 100 Z"/></svg>');
-      }
- 
-      .sector-container {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  overflow: hidden; /* 隐藏溢出部分 */
-  position: relative;
-}
-
-.sector-rotate {
-  width: 100%;
-  height: 100%;
-  background: #4ecdc4;
-  transform-origin: left; /* 旋转原点 */
-  transform: rotate(45deg); /* 调整角度 */
-}
-    
-.box{
-    border: 100px solid transparent;
-    width: 0;
-    height: 0;
-    border-radius: 100px;
-    border-top-color: red;
-}
     </style>
   </head>
   <body>
-    <div class="box"></div>
-    <!-- <div class="triangle"></div>
-    <div class="triangle-clip"></div>
-    <div class="triangle-svg"></div>
-    <div class="sector-conic"></div> -->
+    <button>Click Me</button>
+    <!-- <div class="container">
+      <div class="round"></div>
+      <div class="arrow"></div>
+      <div class="triangle"></div>
+      <div class="sector"></div>
+      <div class="border-1px">1</div>
+    </div> -->
 
-    <div class="sector-container">
-        <div class="sector-rotate"></div>
-      </div>
+    <div class="container">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+      <div class="item">7</div>
+      <div class="item">8</div>
+      <div class="item">9</div>
+    </div>
   </body>
 </html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- 关键：设置viewport适配安全区 -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Sticky Footer 适配安全区</title>
+    <style>
+      /* 重置默认样式 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* 全局安全区变量（方便复用） */
+      :root {
+        --safe-top: env(safe-area-inset-top);
+        --safe-bottom: env(safe-area-inset-bottom);
+      }
+
+      /* 根容器：Flex布局 + 最小高度占满视口 */
+      .app {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        /* 避免内容被顶部状态栏遮挡 */
+        padding-top: var(--safe-top);
+        /* 计算总高度时扣除顶部安全区，防止底部溢出 */
+        box-sizing: border-box;
+      }
+
+      /* 头部：适配顶部安全区（可选，若头部固定在顶部） */
+      .header {
+        padding: 15px;
+        padding-top: calc(15px + var(--safe-top)); /* 原有padding + 安全区 */
+        background: #42b983;
+        color: white;
+        /* 若头部是fixed定位，需单独处理：
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding-top: var(--safe-top);
+      z-index: 999;
+      */
+      }
+
+      /* 内容区：flex:1 自适应 */
+      .content {
+        flex: 1;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+
+      /* 底栏：适配底部安全区（核心） */
+      .footer {
+        padding: 15px;
+        padding-bottom: calc(
+          15px + var(--safe-bottom)
+        ); /* 原有padding + 安全区 */
+        background: #333;
+        color: white;
+        text-align: center;
+        /* 关键：确保安全区padding不影响底栏宽度计算 */
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">页面头部（适配刘海屏）</header>
+      <main class="content">
+        <p>
+          内容区（自适应，不被安全区遮挡） Lorem ipsum dolor sit amet
+          consectetur adipisicing elit. Cumque corrupti vero in iusto totam
+          reprehenderit asperiores rerum nemo, aut officiis quo saepe, aliquid
+          nisi, repudiandae ab commodi. Nisi, non debitis! Ab a repellendus in
+          ullam rem commodi saepe! Omnis dolor totam et aspernatur expedita
+          tempora quis illum, non delectus incidunt officiis dolorem error
+          magnam modi veniam consequuntur, quae neque architecto? Exercitationem
+          minus, aperiam blanditiis iusto est reiciendis. Illum quae quisquam
+          doloribus cumque? Porro blanditiis quod sint atque. Optio a, possimus
+          voluptatum assumenda facere iusto quibusdam maiores architecto
+          mollitia cumque eius! Ducimus magni accusantium repellendus
+          reprehenderit velit sapiente laboriosam asperiores corporis! Saepe
+          ducimus quam vel nesciunt tenetur eos ratione, aliquam, fuga dolorum
+          modi aut nisi nam adipisci mollitia aperiam. Architecto, blanditiis!
+          Dolores praesentium enim reiciendis consequatur ducimus? Provident
+          incidunt officiis corporis laborum sit. Sequi nesciunt exercitationem
+          facere fugiat, reiciendis similique possimus nostrum mollitia nam
+          velit beatae, porro quae voluptate modi amet. Reprehenderit, natus.
+          Unde accusamus architecto officia exercitationem. Quasi consequuntur
+          nihil dolore iure a. Sint, corporis error aspernatur atque suscipit
+          consequuntur est quod officiis, dolorem ipsum repudiandae recusandae
+          nobis in officia. Ea, alias iste minima non ratione placeat in
+          veritatis dignissimos rem quisquam perferendis beatae similique
+          architecto labore officiis eveniet, facilis vitae, quidem odio cumque!
+          Veniam aliquam ratione nesciunt id sequi. Error quam neque recusandae.
+          Fugit quisquam, veniam eaque obcaecati officiis dicta ad consequatur
+          dignissimos maiores placeat provident neque dolorem quasi corrupti
+          tempora incidunt, deleniti, iusto mollitia possimus ipsam? Autem,
+          quisquam? Accusantium sequi veritatis nulla! Suscipit quas rerum
+          dolorem repudiandae, dicta ullam architecto nemo ipsa voluptas modi
+          ipsam eos nulla animi magnam totam blanditiis commodi atque
+          accusantium rem aperiam excepturi. Quisquam. Culpa omnis error sed
+          dolore quo rerum reiciendis sapiente illo aperiam dignissimos! Commodi
+          cum cumque odio, autem ab modi esse nam aliquam eius repellat tempora
+          ut neque eligendi molestias rerum? Voluptate pariatur quis placeat,
+          saepe eos culpa, accusantium consectetur, dolores reiciendis quae
+          voluptatibus! Natus magnam quas tempora accusamus cupiditate! Odit a
+          quidem ipsam error commodi ea, cumque vero molestiae ipsum! Nam odit
+          eveniet sunt quibusdam deserunt! Nam exercitationem explicabo non in
+          ipsum sint doloremque est ad tempora blanditiis deleniti sit animi
+          veritatis ex assumenda vero facilis quaerat consequatur, illum
+          repellendus. Consequatur explicabo, odio, totam sequi, quam
+          praesentium velit culpa eius reiciendis natus voluptas repellat ea
+          nemo. Illum sequi, aspernatur architecto optio doloribus excepturi
+          adipisci est dolore laboriosam dolorum, placeat quidem? Repellat in
+          voluptatibus neque voluptates quam repellendus illum? Voluptatem
+          voluptate a dolore provident in ullam, optio nisi quisquam sapiente
+          eligendi nam consectetur deserunt numquam iste maiores modi
+          repellendus. Id, enim. Laudantium aspernatur nulla exercitationem
+          corporis itaque, consectetur esse! Tempora veritatis provident
+          inventore eum facere, dolorum quis laborum, quos nulla accusantium
+          maxime nemo quod praesentium recusandae sunt eaque, consectetur
+          repellendus perspiciatis! Fugiat culpa debitis maxime fugit quibusdam
+          explicabo, repudiandae ea eaque sapiente et ullam similique ducimus
+          asperiores aspernatur, voluptatibus accusantium. Quo unde, quisquam
+          vero molestiae inventore accusamus laboriosam! Aperiam, sequi quo?
+          Voluptate assumenda numquam, animi optio impedit quis ipsam fuga
+          magnam qui fugiat quos exercitationem cum est tempora ut nisi velit
+          recusandae. Deleniti ratione veniam sequi debitis explicabo repellat,
+          aliquid consequuntur. Dolore recusandae nostrum, sunt fuga placeat
+          iusto saepe error. Praesentium nihil reprehenderit numquam debitis
+          iusto iste non perspiciatis tempore possimus aperiam consectetur, at
+          officiis deleniti minima, dicta repudiandae molestiae veniam.
+          Temporibus voluptatem eveniet, beatae quidem nam doloremque veniam
+          dignissimos saepe ad, soluta excepturi enim nostrum. Ad, ullam!
+          Quibusdam placeat harum, quod voluptatum molestias, recusandae
+          deserunt eligendi aliquid perferendis, possimus aperiam. Quod non
+          ratione odio asperiores facilis tempora omnis aut illo blanditiis ut!
+          Eaque ipsa libero, a nostrum accusantium quaerat facilis molestias
+          voluptatibus itaque sequi quos non perferendis pariatur nulla! Quod.
+          Qui dolore hic rerum, omnis officia ipsa dolorem ipsam vel id,
+          distinctio earum. Ipsa porro, placeat culpa eaque earum reiciendis
+          debitis saepe consectetur at sit, modi id commodi quos aliquid? Qui
+          libero rerum repellendus, incidunt sapiente cum possimus numquam iure
+          sequi, illo animi odit veniam repudiandae id laboriosam nostrum
+          eveniet suscipit aspernatur quidem! Molestiae atque voluptate beatae
+          odio exercitationem veniam. Quidem eaque ducimus consectetur,
+          recusandae deserunt voluptatum assumenda provident ut repellat sunt
+          nemo distinctio dolores, mollitia id rerum. Rem, qui dolor. Impedit
+          minima assumenda, ratione deleniti soluta tenetur inventore iure?
+          Magni blanditiis culpa harum eum, quos unde! Fuga quidem praesentium
+          et nesciunt ab atque illum illo quis. Quo, natus unde fuga nisi
+          corporis enim magni quasi distinctio ex autem! Dolorum. Saepe fugit
+          veritatis consectetur sit voluptatem unde ut veniam ipsum natus
+          temporibus obcaecati, voluptatum autem iusto maiores eaque quibusdam,
+          optio aspernatur accusantium modi laborum voluptas quia. Ad fugiat
+          libero ducimus! Nemo dicta sunt fugit, molestiae tenetur provident
+          quam in accusantium porro, ab tempore suscipit rerum eveniet est rem
+          perferendis animi atque! Neque beatae obcaecati ea voluptas nihil rem
+          vitae iure. Ab quisquam assumenda nisi, repellat velit perferendis
+          nulla deleniti. Amet qui voluptas modi natus voluptatum fugit iure,
+          eaque maxime ipsam nam ab a nesciunt? Ab, tempore. Quae aliquid
+          recusandae harum. Voluptate debitis dolorem corrupti commodi itaque
+          sit quidem neque totam temporibus accusamus. Quasi, temporibus. Quod
+          cum a reprehenderit? Repellat nam aperiam, assumenda voluptatum
+          asperiores sint fugiat excepturi? Accusantium, voluptatum esse. Maxime
+          recusandae, nulla veniam quam quia, error minima beatae nihil sint rem
+          voluptatem dicta deleniti voluptatibus magni. Pariatur possimus
+          numquam mollitia minus praesentium repellat et ipsa dicta, impedit
+          illum fugiat. Eum enim, eveniet voluptate soluta saepe beatae? Tempore
+          eum error doloribus quisquam repudiandae, officia quia, perspiciatis
+          non, eos illum atque in consequuntur distinctio labore! Minus error
+          veniam ad aperiam! Tempora!
+        </p>
+      </main>
+      <footer class="footer">固定底栏（适配底部安全区）</footer>
+    </div>
+  </body>
+</html>

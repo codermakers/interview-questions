@@ -73,6 +73,7 @@ watch: {
     </div>
   </div>
   ```
+
   - 删除中间项：删除第二个项（index=1）后，后续项的 index 会前移（原 index=2 变为 index=1），Vue 会认为 key=1 的元素是原来的第二项（实际已被删除）导致：
     - 输入框内容错位：原第三项（index=2）的输入框复用为 index=1，但数据未同步。
     - 状态混乱：如子组件内部状态（如输入值）被错误保留。
@@ -90,13 +91,12 @@ watch: {
 - 概念：下次 DOM 更新循环结束之后执行延迟回调，方便安全的获取更新后的 DOM
 - 本质:它利用了 JavaScript 的 微任务队列（Microtask Queue）（如 Promise.then、MutationObserver）或降级为 宏任务（Macrotask）（如 setTimeout）来实现这一目标
 - 使用场景
-
   - 响应式数据发生变化后，需要立即操作更新后的 DOM
 
   ```js
-  this.message = "更新后的内容"; // 修改数据
+  this.message = '更新后的内容'; // 修改数据
   this.$nextTick(() => {
-    const element = document.getElementById("text");
+    const element = document.getElementById('text');
     console.log(element.textContent); // 输出：'更新后的内容'
   });
   ```
@@ -123,7 +123,6 @@ watch: {
   - hash 模式是通过`hashchange`监听 Hash 变化
   - history 模式是通过`popstate`事件监听路径变化
 - 服务端支持
-
   - hash 模式是无需服务器配置
   - history 模式需要服务器配置
 
@@ -131,7 +130,7 @@ watch: {
   <!-- 需要Nginx配置：否则刷新页面404 -->
 
   location / {
-    try_files $uri $uri/ /index.html;
+  try_files $uri $uri/ /index.html;
   }
   ```
 
@@ -189,6 +188,7 @@ watch: {
 ### Vue3 相关面试题
 
 #### 1、Vue3 与 Vue2 相比,带来了哪些变化？
+
 - 优化了Diff算法，增加了Patch Flag(静态标记)，只更新变化的节点:
 - 改进了响应式系统： 使用Proxy代替了Object.defineProperty。
 
@@ -199,9 +199,10 @@ watch: {
 - Suspense 用于处理异步组件加载状态
 - Teleport传送门
 - 更好的TS支持等
-...
+  ...
 
 #### 3、`ref` 与 `reactive` 有什么区别？
+
 - 同：都用于创建响应式数据
 - 异:
   - 适用类型
@@ -215,8 +216,7 @@ watch: {
     - reactive 基于 ES6 Proxy 深度代理对象，拦截所有属性操作，性能损耗高，无法代理原始值
 
 #### 4、`watch` 与 `watchEffect`有什么区别？
+
 - 依赖收集
   - watch 需要`显式指定源`(ref/reactive/getter),`默认不立即执行`; 一般可`访问旧值`; 可用于精确控制，依赖变化后的复杂操作。
   - watchEffect`自动收集`回调函数中访问的响应式依赖，`创建时立即执行一次`,无法访问旧值；适用于多个依赖，副作用逻辑简单的场景；
-
-#### 5、
