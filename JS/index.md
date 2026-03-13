@@ -11,12 +11,10 @@
 #### 2、JS 数据类型判断及优缺点 ？
 
 - typeof
-
   - typeof 适用于判断除 null 以外的基本数据类型；
   - typeof 无法准确判断引用类型，除了 function 类型可以准确判断，对于 Array、Date、RegExp 等无法区分。
 
 - instanceof
-
   - instanceof 适用于判断某个对象是否属于某个构造函数，不能用于基本类型判断
   - 无法跨全局环境(iframe 或不同窗口对象)、编码中原型链可能被篡改，导致判断失误
 
@@ -29,7 +27,6 @@
     ```
 
 - constructor
-
   - 无法跨全局环境(iframe 或不同窗口对象)、编码中原型链可能被篡改，导致判断失误
 
     ```js
@@ -63,12 +60,12 @@
 
 #### 5、call/apply/bind 区别 ？
 
-```md
-同： call/apply/bind 都用于修改函数中的 This 指向，但使用方式不同
-异：
-1、apply(thisObj, arrayLike/array): 数组或者类数组传参,立即执行
-2、call(thisObj, arg1,arg2...)： 参数列表（逐个传参）,立即执行
-3、bind(thisObj,arg1,arg2...),bind 会创造一个新函数,不会立即执行，传递的参数会变成新函数的参数
+```HTTP
+ 同：call/apply/bind 都用于修改函数中的 This 指向，但使用方式不同
+ 异：
+  1、apply(thisObj, arrayLike/array): 数组或者类数组传参,立即执行
+  2、call(thisObj, arg1,arg2...)： 参数列表（逐个传参）,立即执行
+  3、bind(thisObj,arg1,arg2...),bind 会创造一个新函数,不会立即执行，传递的参数会变成新函数的参数
 ```
 
 #### 6、谈一下 JS 中闭包及应用场景？
@@ -84,45 +81,45 @@
   - 闭包能延长变量生命周期。避免全局变量污染，但是由于变量常驻内存，过度使用，可能导致内存泄漏
 - 应用场景
 
-```js
-// 函数柯里化(Curring)：将多参数函数转成单参数的链式调用
-function add(x) {
-  return (x) => x + y; // 缓存x
-}
+  ```js
+  // 函数柯里化(Curring)：将多参数函数转成单参数的链式调用
+  function add(x) {
+    return (x) => x + y; // 缓存x
+  }
 
-// 缓存(Memoize): 缓存计算结果，提升性能
+  // 缓存(Memoize): 缓存计算结果，提升性能
 
-/* 
-  防抖节流()：限制高频事件的触发频率
-*/
+  /* 
+    防抖节流()：限制高频事件的触发频率
+  */
 
-// 防抖函数(Debounce)
-function debounce(fn, delay = 300) {
-  let timer = null; // 闭包保存定时器 ID
-  return function (...args) {
-    clearTimeout(timer); // 清除之前的定时器
-    timer = setTimeout(() => {
-      fn.apply(this, args); // 延迟执行
-    }, delay);
-  };
-}
-// 节流函数(Throttle)
-function throttle(fn, interval = 300) {
-  let timer = null; // 闭包保存定时器 ID
-  return function (...args) {
-    if (!timer) {
+  // 防抖函数(Debounce)
+  function debounce(fn, delay = 300) {
+    let timer = null; // 闭包保存定时器 ID
+    return function (...args) {
+      clearTimeout(timer); // 清除之前的定时器
       timer = setTimeout(() => {
-        fn.apply(this, args); // 执行回调
-        timer = null; // 重置定时器
-      }, interval);
-    }
-  };
-}
+        fn.apply(this, args); // 延迟执行
+      }, delay);
+    };
+  }
+  // 节流函数(Throttle)
+  function throttle(fn, interval = 300) {
+    let timer = null; // 闭包保存定时器 ID
+    return function (...args) {
+      if (!timer) {
+        timer = setTimeout(() => {
+          fn.apply(this, args); // 执行回调
+          timer = null; // 重置定时器
+        }, interval);
+      }
+    };
+  }
 
-/* 
-  模拟私有变量和方法:隐藏数据，防止外部修改
-*/
-```
+  /* 
+    模拟私有变量和方法:隐藏数据，防止外部修改
+  */
+  ```
 
 #### 7、如何避免闭包导致的内存泄漏？
 
@@ -135,7 +132,6 @@ function throttle(fn, interval = 300) {
 - 概念：
   内存泄漏指的是程序在运行过程中不在使用的内存无法释放，导致内存占用持续增长，引发性能下降甚至系统崩溃的现象。
 - 内存泄漏常见场景
-
   - 意外的全局变量
   - 未及时清除的定时器和回调
   - 闭包导致的变量未释放
@@ -145,13 +141,12 @@ function throttle(fn, interval = 300) {
   - 第三方库未正确销毁
 
 - 解决方案：
-
   - 使用严格模式或者模块化以及正确的 let/const 方式，避免意外的全局变量
 
   ```js
   function add() {
-    globar = "全局变量"; //   建议使用let/const声明
-    console.log("globar-", global);
+    globar = '全局变量'; //   建议使用let/const声明
+    console.log('globar-', global);
   }
   ```
 
@@ -169,12 +164,12 @@ function throttle(fn, interval = 300) {
 
   ```js
   function createClosureLeak() {
-    const bigData = new Array(100000).fill("data"); // 占用内存的大对象
+    const bigData = new Array(100000).fill('data'); // 占用内存的大对象
     const privateKey = Math.random(); // 重要敏感数据
 
     return function () {
       // 闭包中只使用了privateKey，但无意中保留了bigData的引用
-      console.log("Secret key:", privateKey);
+      console.log('Secret key:', privateKey);
     };
   }
 
@@ -187,7 +182,7 @@ function throttle(fn, interval = 300) {
 
   ```js
   function cleanDOM() {
-    const list = document.querySelector(".big-list");
+    const list = document.querySelector('.big-list');
     list.remove();
     list = null; // 释放DOM引用
   }
@@ -221,7 +216,6 @@ function throttle(fn, interval = 300) {
   - 增量/空闲回收（Incremental GC）/ （Incremental GC）
     > 由于引擎无法识别对象是否 `用不用`的问题，所以以上回收策略都是不完美的解决方案;现代 JavaScript 引擎（如 V8、SpiderMonkey）通过组合多种策略（分代 + 增量 + 并行）优化垃圾回收，开发者应关注代码习惯，避免常见内存泄漏问题
 - 回收策略的优缺点
-
   - 引用计数是通过计算对象被引用的次数，如果为 0 会被垃圾回收； 实时性高,会被立即回收；但如果存在`循环引用`问题，引用次数永远不能为 0,无法被回收
 
   ```js
@@ -235,47 +229,50 @@ function throttle(fn, interval = 300) {
 
   - 标记清除
 
-  ```md
-  ​​ 原理:
-  ​​ 标记阶段 ​​：从根对象（全局对象、活动执行上下文等）出发，递归标记所有可达对象。
+  ```bash
+  ​​ 【原理】:
+  ​​  标记阶段 ​​：从根对象（全局对象、活动执行上下文等）出发，递归标记所有可达对象。
   ​ ​ 清除阶段 ​​：遍历堆内存，回收未被标记的对象。
-  ​​ 优点:
-  解决了循环引用问题。
-  缺点:
-  ​​ 暂停时间（Stop-The-World）​​：标记和清除过程会阻塞脚本执行，可能导致页面卡顿。
-  ​​ 内存碎片 ​​：清除后`内存不连续`，可能影响后续内存分配效率。
+  ​​ 【优点】:
+    解决了循环引用问题。
+   【缺点】:
+  ​​  暂停时间（Stop-The-World）​​：标记和清除过程会阻塞脚本执行，可能导致页面卡顿。
+  ​​  内存碎片 ​​：清除后`内存不连续`，可能影响后续内存分配效率。
   ```
 
   - 分代回收
 
-  ```md
-  原理 ​​：基于对象存活时间将内存分为两代：
+  ```bash
+  【原理】: 基于对象存活时间将内存分为两代：
   ​​ 新生代（Young Generation）​​：存放短生命周期的对象（如局部变量），使用 ​​Scavenge 算法 ​​（复制存活对象到新空间，清空旧空间）。
   ​​ 老生代（Old Generation）​​：存放长生命周期对象，使用 ​​ 标记-清除 ​​ 或 ​​ 标记-整理（Mark-and-Compact）​​（清除后整理内存碎片）。
-  ​​ 优点 ​​：
+  ​​【优点】:
   针对不同对象特性优化，提升回收效率。
-  ​​ 缺点 ​​：
-  实现复杂，需维护多代内存结构。
+  ​​【缺点】:
+   实现复杂，需维护多代内存结构。
   ```
 
   - 增量/空闲回收
 
-  ```md
-  增量回收 ​​：将垃圾回收任务拆分为多个小任务，穿插在脚本执行间隙，减少卡顿。
-  ​ 空闲回收 ​​：在浏览器空闲时段（如 requestIdleCallback）执行回收，避免影响用户体验。
+  ```bash
+   【增量回收】: 将垃圾回收任务拆分为多个小任务，穿插在脚本执行间隙，减少卡顿。
+  ​ 【空闲回收】: 在浏览器空闲时段（如 requestIdleCallback）执行回收，避免影响用户体验。
   ```
 
 #### 10、谈一下 JS 中的高阶函数(HOF)？
 
-```md
-高阶函数： 能操作其他函数的函数。(`可以接受函数作为参数、或者函数作为返回值(满足其一即可)返回的函数`)就可称之为高阶函数。
+```HTTP
+ 高阶函数：能操作其他函数的函数。(`可以接受函数作为参数、或者函数作为返回值(满足其一即可)返回的函数`)就可称之为高阶函数。
 
-- 如 Array 原型上的 map/filter...，可以接受 callback 作为参数
-- 函数作为返回值: 如闭包
+ - 如 Array 原型上的 map/filter...，可以接受 callback 作为参数
+ - 函数作为返回值: 如闭包
 ```
 
-#### 11、函数柯里化？ 函数组合？
+#### 11、纯函数、函数柯里化？ 函数组合？
 
+- 纯函数:
+  - ①、相同输入永远返回相同输出
+  - ②、无副作用(函数执行过程中，不会修改函数外部的任何数据（包括全局变量、参数对象、DOM、网络请求、本地存储等），也不会产生外部可观察的变化（如打印日志、弹出弹窗、发送请求）)
 - 函数柯里化(curring)：将一个多参数的函数分解成单参数的链式调用的过程称为函数柯里化,如 f(x,y,z) -> f(x)(y,z) ->f(x)(y)(z)，本质是对函数的一种转换。
 
 ```js
@@ -310,20 +307,256 @@ const compose =
     fns.reduceRight((acc, fn) => fn(acc), x); //实现
 ```
 
-#### 12、实例、原型与原型链？
+#### 12、实例、构造函数、原型与原型链？
 
+- 构造函数(constructor)
+  - 用于实例化对象
+  - 本身具有内置属性Prototype,指向原型对象(Prototype)
 - 实例（Instance）
   - 通过构造函数 new 出来的对象，就是实例
+  - 本身具有非标准属性**proto**，指向它的原型对象(Prototype)
 - 原型(Prototype)
-  - 实例的**proto**属性(构造函数的 Prototype 属性)指向的对象就是原型对象
-- 原型链 (Prorotye Chain)
-  - 实例的**proto**的链接形成的链式结构就是原型链，当访问对象属性时，则会沿着原型链向上查找，直至找到或到达终点(null)
+  - 实例的`__proto__`的指向，同时也是构造函数Prototype的指向
+  - 本身具有constructor属性，指向它的构造函数
+- 原型链 (Prototype Chain)
+  - 实例的`__proto__`的链接形成的链式结构就是原型链，当访问对象属性时，则会沿着原型链向上查找，直至找到或到达终点(null)
 
-#### 13、谈一下 new 构造实例经历了哪些过程？ 手动实现一个 myNew 函数
+  - 完整的原型链及instance、constructor、prototype之间关系验证
+
+  ```js
+  function Cat(name) {
+    this.name = name;
+  }
+  Cat.prototype.meow = function () {
+    console.log('Meow!');
+  };
+  // 实例对象：普通对象亦如此
+  var cat1 = new Cat('Tom');
+  console.log(cat1);
+  console.log(cat1.__proto__ === Cat.prototype); // true
+  console.log(cat1.__proto__.constructor === Cat); // true
+  console.log(cat1.constructor === Cat); // true, because cat1.__proto__.constructor is Cat
+  // 数组
+  var arr = [];
+  console.log(arr.__proto__ === Array.prototype); // true
+  console.log(arr.__proto__.constructor === Array); // true
+  console.log(arr.constructor === Array); // true, because arr.__proto__.constructor is Array
+
+  // 验证数组原型链：普通数组原型对象是Array.prototype，Array.prototype的原型对象是Object.prototype
+  console.log(Array.prototype.__proto__ === Object.prototype); // true, Array.prototype is an object
+  console.log(Array.prototype.__proto__.constructor === Object); // true, Array.prototype.__proto__ is Object.prototype
+  console.log(Array.prototype.constructor === Array); // true, Array.prototype.constructor is Array
+  console.log(arr.constructor === Array); // true, arr.constructor is Array
+  console.log(Array.__proto__ === Function.prototype); // true, Array is a function
+
+  //函数：
+  function sum(a, b) {
+    return a + b;
+  }
+
+  //验证函数原型链：函数对象的原型对象是Function.prototype，Function.prototype的原型对象是Object.prototype
+  console.dir(sum);
+  console.log(sum.__proto__ === Function.prototype); // true
+  console.log(sum.__proto__.constructor === Function); // true
+  console.log(sum.constructor === Function); // true, because sum.__proto__.constructor is Function
+
+  console.log(Function.prototype.__proto__ === Object.prototype); // true, Function.prototype is an object
+  console.log(Function.prototype.__proto__.constructor === Object); // true, Function.prototype.__proto__ is Object.prototype
+  console.log(Function.prototype.constructor === Function); // true, Function.prototype.constructor is Function
+
+  console.log(Object.__proto__ === Function.prototype); // true, Object is a function
+
+  // 验证Object.prototype的原型链：Object.prototype是原型链的顶端，它的原型对象是null
+  console.log(Object.prototype.__proto__ === null); // true, Object.prototype is the top of the prototype chain
+
+  //内置对象（String/Number/Boolean）的原型链
+  var str = 'Hello'; //  等价于 new String('Hello')
+  console.log(str.__proto__ === String.prototype); // true
+  console.log(str.__proto__.constructor === String); // true
+  console.log(str.constructor === String); // true, because str.__proto__.constructor is String
+
+  console.log(String.__proto__ === Function.prototype); // true, String is a function
+  console.log(String.prototype.__proto__ === Object.prototype); // true, String.prototype is an object
+
+  var num = 42; // 等价于 new Number(42)
+  console.log(num.__proto__ === Number.prototype); // true
+  console.log(num.__proto__.constructor === Number); // true
+  console.log(num.constructor === Number); // true, because num.__proto__.constructor is Number
+
+  console.log(Number.__proto__ === Function.prototype); // true, Number is a function
+  console.log(Number.prototype.__proto__ === Object.prototype); // true, Number.prototype is an object
+
+  var bool = true; //等价于 new Boolean(true)
+  console.log(bool.__proto__ === Boolean.prototype); // true
+  console.log(bool.__proto__.constructor === Boolean); // true
+  console.log(bool.constructor === Boolean); // true, because bool.__proto__.constructor is Boolean
+
+  console.log(Boolean.prototype.__proto__ === Object.prototype); // true, Boolean.prototype is an object
+  console.log(Boolean.__proto__ === Function.prototype); // true, Boolean is a function
+  ```
+
+  - 图示
+
+  > PS:
+  > 1、内置对象:number/boolean/string,它们的原型对象指向各自的原型对象(String.prototype/Number.Prototype等)；原型对象本身也是对象，原型对象的原型指向Object.prototype.
+  > 2、Array（普通数组）原型对象指向Array.prototype、Function（普通函数）的原型对象指向Function.prototype;；原型对象本身也是对象，原型对象的原型指向Object.prototype.
+  > 3、Object(普通对象)的原型对象指向Object.prototype, Object.prototype本身也是对象，它的原型对象指向null
+
+#### 13、变量提升(Hoisting)
+
+- 概念：JS引擎在代码执行前，会先进行`编译`，var声明的变量和函数声明提升到当前作用域的顶部(但不提升赋值)，这个过程叫`变量提升`
+- 经典面试题：
+
+  ```js
+  // 题目1：var 变量提升
+  console.log(a); // undefined
+  var a = 10;
+  console.log(a); // 10
+
+  // 题目2：函数声明 vs 函数表达式
+  fn1(); // 1（函数声明整体提升）
+  function fn1() {
+    console.log(1);
+  }
+
+  fn2(); // 报错 TypeError（fn2 是 var 变量，提升后是 undefined）
+  var fn2 = function () {
+    console.log(2);
+  };
+
+  // 题目3：let/const 暂时性死区
+  console.log(b); // 报错 ReferenceError（TDZ：从作用域开始到 let 声明前的区域）
+  let b = 20;
+  ```
+
+#### 14、作用域(scope)
+
+- 概念：变量和函数的可访问范围。核心作用(隔离变量)，避免命名冲突
+- 作用域类型:
+  - 全局作用域：整个 JS 文件或 script标签内的范围;
+  - 函数作用域：函数内部的范围，变量仅在函数内有效
+  - 块级作用域(ES6)：{} 包裹的代码块内的范围（如 if/for/{}）
+- 经典问题：
+
+  ```js
+  // 题目1：var 没有块级作用域
+  for (var i = 0; i < 3; i++) {
+    setTimeout(() => console.log(i), 0);
+  }
+  // 输出：3 3 3（var i 是全局变量，循环结束后 i=3，定时器执行时都取全局 i）
+
+  // 题目2：let 有块级作用域
+  for (let j = 0; j < 3; j++) {
+    setTimeout(() => console.log(j), 0);
+  }
+  // 输出：0 1 2（let j 每次循环都生成新的块级作用域，定时器保存了当前 j）
+  ```
+
+#### 15、作用域链(scope Chain)
+
+- 概念：当在当前作用域查找变量，如果找不到，会向父级作用域找，直到全局作用域，直到找到或者报错，这种层层向上查找链被称为`作用域链`
+
+#### 16、执行上下文和上下文栈(ECS or Call stack or调用栈)
+
+- 概念：执行上下文(Execution Context): JS 代码执行时的环境记录了当前代码的执行信息（变量、函数、this 等）
+- 执行上下文类型：
+  - 全局执行上下文: 代码首次执行时创建，全局代码的执行环境; 只有1个
+  - 函数执行上下文: 函数调用时创建，函数代码的执行环境；调用几次函数，就创建几个
+  - eval执行上下文：eval() 函数执行时创建（不推荐使用); 按需
+- 执行上下文创建的两个阶段：
+  - 创建阶段(代码执行前):
+    - 创建变量对象（VO）：
+      - 全局上下文：创建 window 对象（浏览器端），存储全局变量 / 函数、内置对象等
+      - 函数上下文：创建函数VO(执行阶段：VO ->AO)，存储形参、变量、arguments、函数声明
+    - 确定作用域链：由当前作用域的变量对象 + 父级作用域的变量对象组成（用于变量查找）
+    - 确定This指向：全局window，函数中由调用方决定
+  - 执行阶段：
+    - 变量赋值、函数调用、执行代码逻辑
+- 区分VO与AO
+  - VO是全局上下文和函数上下文创建阶段的抽象称呼，全局VO指向window，函数VO不可访问;全局VO：页面加载时创建，页面关闭时销毁；
+  - AO是函数上下文执行阶段：函数VO转成可访问的AO，执行完销毁
+    > PS: AO 是 VO 在函数执行上下文中的「激活版本」-> 函数执行上下文创建阶段，先生成「未激活的 VO」；进入执行阶段后，VO 被激活为 AO（可访问形参、arguments 等）-> 全局执行上下文只有 VO（即 window），没有 AO
+  - 代码示例：
+    全局执行上下文，只有VO
+
+    ```js
+    // 全局执行上下文创建阶段：
+    /**
+      
+    VO（window） = {
+      a: undefined, // var 变量提升
+      fn: 函数本身, // 函数声明提升
+      ...（内置属性如 document、setTimeout 等）
+    }
+    */
+    console.log(a); // undefined（VO 中 a 已存在，未赋值）
+    var a = 10;
+    function fn() {}
+
+    // 全局执行阶段：
+    /**
+     VO（window） = {
+      a: 10, // 变量赋值完成
+      fn: 函数本身,
+      ...
+     } 
+    */
+    console.log(a); // 10（直接访问全局 VO（window）的 a）
+    console.log(window.a); // 10（全局 VO 就是 window）
+    ```
+
+    函数上下文：（VO → AO）
+
+    ```js
+    function fn(b) {
+      // 1. 函数上下文创建阶段（VO 未激活）：
+      /* 
+      VO = {
+        arguments: [20],  // 实参数组
+        b: 20,            // 形参赋值
+        c: undefined,     // var 变量提升
+        innerFn: 函数本身 // 函数声明提升
+      }
+      */
+
+      console.log(c); // undefined（VO 中 c 已存在，未赋值）
+      var c = 30;
+      function innerFn() {}
+
+      // 2. 函数上下文执行阶段（VO 激活为 AO）：
+      /*
+      AO = {
+        arguments: [20],
+        b: 20,
+        c: 30,  // 变量赋值完成
+        innerFn: 函数本身
+      }
+      
+      */
+      console.log(c); // 30（AO 中 c 已赋值）
+    }
+
+    fn(20); // 调用函数，触发函数上下文创建→执行
+    ```
+
+- 上下文栈(ECS)：
+  - 全局执行上下文先入栈，且一直存在（直到页面关闭）。
+  - 函数调用时，新的函数执行上下文入栈；函数执行完后，该上下文出栈。
+- 栈溢出（stack overflow）: 当栈的深度超过浏览器深度，会报错 Maximum call stack size exceeded
+
+  ```js
+  // 栈溢出示例
+  function fn() {
+    fn(); // 无限递归，没有终止条件
+  }
+  fn(); // 报错：Maximum call stack size exceeded
+  ```
+
+#### 17、谈一下 new 构造实例经历了哪些过程？ 手动实现一个 myNew 函数
 
 - new 实例化过程
   - 创建一个空对象，并且其原型指向构造函数的 Prototype 属性
-  - 绑定上下文; 调用构造函数，将 this 绑定到新创建的对象
+  - 绑定上下文; 调用构造函数，将this绑定到新创建的对象,初始化对象
   - 处理返回值
     - 如果构造函数 return 对象，则 new 实例化对象就是该对象
     - 如果构造函数 return 原始值，则忽略，返回步骤 1 创建的对象
@@ -331,7 +564,7 @@ const compose =
 
   ```js
   function myNew(constructor, ...args) {
-    if (typeof constructor !== "function") {
+    if (typeof constructor !== 'function') {
       throw new TypeError(`${constructor} is not a constructor`);
     }
     // 创建对象，链接原型
@@ -348,7 +581,7 @@ const compose =
   }
   ```
 
-#### 14、ES5、ES6 中继承实现方式
+#### 18、ES5、ES6 中继承实现方式
 
 - ES5 继承
   - 盗用构造函数继承(又称: "对象伪装"或 "经典继承")
@@ -359,7 +592,7 @@ const compose =
 - ES6 继承
   - 通过 `extends` 与`super`关键字配合实现继承
 
-#### 15、JS 对象中的深浅拷贝区别？深拷贝几种实现方式的优缺点、手动实现一个较完美的深拷贝
+#### 19、JS 对象中的深浅拷贝区别？深拷贝几种实现方式的优缺点、手动实现一个较完美的深拷贝
 
 - 区别：
   - 浅拷贝仅拷贝第一层属性(嵌套属性不复制)，对于引用类型拷贝的是引用地址。修改嵌套属性会影响原对象。
@@ -377,7 +610,7 @@ const compose =
     - 其他的 API,如 MessageChannel、History API、Notification API、structuredClone(JS 原生 API 存在兼容性问题)
 - 深拷贝实现方式的一些利与弊
   - JSON.parse(JSON.stringfy())对于可以被序列化的数据类型才可以进行拷贝，否则会出现属性丢失,报错问题，无法解决`循环引用`问题
-    - 无法处理 Symbol、function、undefined,循环引用
+    - 无法处理 Symbol、function、undefined等，会丢失
     - Date 类型会被转成字符串(反序列化后无法恢复为 Date)
     - ​RegExp​​、​​Map​​、​​Set​​ 等会变成空对象
     - 无法解决循环引用问题
@@ -386,71 +619,95 @@ const compose =
   - 第三方库 lodash.deepClone 、jQuery 的 $.extend(true, {}, obj)较完美，生产环境推荐使用
   - structuredClone API(原生 API)，现代浏览器推荐使用
     - 不支持 IE 和旧版浏览器，存在兼容性问题
-    - ​​ 无法处理函数 ​​：会抛出 DOMException 错误。
+    - ​​无法处理函数 ​​：会抛出 DOMException 错误。
 - 手动实现一个较完美的深拷贝？
 
 ```js
-// 支持循环引用、各种数据类型（包括 Date、RegExp、Map、Set 等），并保持原型链
-function deepClone(target, map = new WeakMap()) {
-  // 处理非对象类型和 null（typeof null === 'object'）
-  if (target === null || typeof target !== "object") {
+/**
+ * 完美深拷贝函数
+ * @param {any} target - 要拷贝的目标值
+ * @param {WeakMap} cache - 缓存已拷贝对象，解决循环引用（内部使用，外部无需传）
+ * @returns {any} 拷贝后的新值
+ */
+function deepClone(target, cache = new WeakMap()) {
+  // 1. 处理基本类型 + null/undefined：直接返回
+  if (target === null || typeof target !== 'object') {
     return target;
   }
 
-  // 处理特殊对象类型
+  // 2. 处理循环引用：如果缓存中已有，直接返回缓存的对象
+  if (cache.has(target)) {
+    return cache.get(target);
+  }
+
+  let cloneTarget;
+
+  // 3. 处理内置对象
+  // 3.1 处理 Date
   if (target instanceof Date) {
-    return new Date(target.getTime());
+    cloneTarget = new Date(target);
+    cache.set(target, cloneTarget);
+    return cloneTarget;
   }
 
+  // 3.2 处理 RegExp
   if (target instanceof RegExp) {
-    return new RegExp(target.source, target.flags);
+    cloneTarget = new RegExp(target.source, target.flags);
+    cache.set(target, cloneTarget);
+    return cloneTarget;
   }
 
-  // 处理循环引用
-  if (map.has(target)) {
-    return map.get(target);
-  }
-
-  // 处理 Map
+  // 3.3 处理 Map
   if (target instanceof Map) {
-    const cloneMap = new Map();
-    map.set(target, cloneMap);
+    cloneTarget = new Map();
+    cache.set(target, cloneTarget);
+    // 递归拷贝 Map 的键值对
     target.forEach((value, key) => {
-      cloneMap.set(deepClone(key, map), deepClone(value, map));
+      cloneTarget.set(deepClone(key, cache), deepClone(value, cache));
     });
-    return cloneMap;
+    return cloneTarget;
   }
 
-  // 处理 Set
+  // 3.4 处理 Set
   if (target instanceof Set) {
-    const cloneSet = new Set();
-    map.set(target, cloneSet);
+    cloneTarget = new Set();
+    cache.set(target, cloneTarget);
+    // 递归拷贝 Set 的元素
     target.forEach((value) => {
-      cloneSet.add(deepClone(value, map));
+      cloneTarget.add(deepClone(value, cache));
     });
-    return cloneSet;
+    return cloneTarget;
   }
 
-  // 处理数组和对象
-  const cloneObj = Array.isArray(target)
-    ? []
-    : Object.create(Object.getPrototypeOf(target));
-
-  map.set(target, cloneObj);
-
-  // 处理 Symbol 作为属性键
-  const symbols = Object.getOwnPropertySymbols(target);
-  const allKeys = [...Object.keys(target), ...symbols];
-
-  for (const key of allKeys) {
-    cloneObj[key] = deepClone(target[key], map);
+  // 3.5 处理函数（直接返回原函数，函数无需深拷贝）
+  if (typeof target === 'function') {
+    // 可选：如果需要拷贝函数（如箭头函数/普通函数），可返回原函数或绑定this
+    cloneTarget = target.bind({});
+    cache.set(target, cloneTarget);
+    return cloneTarget;
   }
 
-  return cloneObj;
+  // 4. 处理普通对象/数组
+  // 判断是数组还是对象，创建对应空实例
+  cloneTarget = Array.isArray(target) ? [] : {};
+  // 缓存当前对象，解决循环引用
+  cache.set(target, cloneTarget);
+
+  // 5. 复制自身可枚举属性（包括Symbol属性）
+  // 获取所有自身属性（包括Symbol）
+  const keys = Reflect.ownKeys(target);
+  keys.forEach((key) => {
+    // 递归拷贝属性值
+    cloneTarget[key] = deepClone(target[key], cache);
+  });
+
+  // 6. 可选：复制原型链（日常开发很少需要，默认注释）
+  // Object.setPrototypeOf(cloneTarget, Object.getPrototypeOf(target));
+  return cloneTarget;
 }
 ```
 
-#### 16、数组去重实现？
+#### 20、数组去重实现？
 
 - [...new Set(array)]
 - filter + indexOf
@@ -515,7 +772,7 @@ function uniqueArr(arr) {
 }
 ```
 
-#### 17、数组扁平化： 将多维数组转成一维数组
+#### 21、数组扁平化： 将多维数组转成一维数组
 
 - flat() (ES6)
 - 递归(reduce + concat)
@@ -552,11 +809,11 @@ function flatten(arr) {
 
 // toString
 function flatten(arr) {
-  return arr.toString().split(",").map(Number);
+  return arr.toString().split(',').map(Number);
 }
 // 正则 (regxp)
 function flatten(arr) {
-  return JSON.stringify(arr).replace(/\[|\]/g, "").split(",").map(Number);
+  return JSON.stringify(arr).replace(/\[|\]/g, '').split(',').map(Number);
 }
 
 // generator
@@ -572,7 +829,7 @@ function* flatten(arr) {
 console.log([...flatten(arr)]);
 ```
 
-#### 18、伪数组(类数组对象)以及真伪数组转换?
+#### 22、伪数组(类数组对象)以及真伪数组转换?
 
 - 概念：具有 length 属性，可以通过索引访问元素，但不具备数组方法(forEach/map)的对象。
 - 常见的伪数组：NodeList、arguments 对象、字符串等
@@ -581,7 +838,7 @@ console.log([...flatten(arr)]);
   - Array.from(arrayLike)
   - Array.prototype.slice.call(arrayLike)/ [].slice.call(arrayLike)
 
-#### 19、数组打乱(打乱一个数组排序，随机排序)
+#### 23、数组打乱(打乱一个数组排序，随机排序)
 
 - 打乱数组常见方法
   - sort + Math.random()
@@ -620,7 +877,7 @@ const shuffle = (arr) =>
       [a[i], a[j]] = [a[j], a[i]];
       return a;
     },
-    [...arr]
+    [...arr],
   );
 
 // 随机映射法(不推荐)：为每个元素生成随机数作为权重，重新排序
@@ -630,7 +887,7 @@ const shuffled = arr
   .map((v) => v.value);
 
 // lodash中的shuffle
-import { shuffle } from "lodash";
+import { shuffle } from 'lodash';
 const shuffled = shuffle(arr);
 
 // 测试 Fisher-Yates 算法的均匀性
@@ -642,15 +899,14 @@ for (let i = 0; i < 100000; i++) {
   const shuffled = shuffle(arr);
   shuffled.forEach((num, pos) => count[num][pos]++);
 }
-console.log("位置分布统计:", count);
+console.log('位置分布统计:', count);
 ```
 
-#### 20、JS 中的防抖（Debounce）节流（Throttle） ？
+#### 24、JS 中的防抖（Debounce）节流（Throttle） ？
 
 - 概念： JS 中的防抖和节流都是控制高频事件执行的频率。常用于`resize`，`input`,`scroll`等场景。
 - 防抖节流实现方式对比
-
-  - 防抖(Debounce): 事件首次触发，回调延迟执行，若在延迟时间内重新触发,则重新计时
+  - 防抖(Debounce): 事件首次触发，回调延迟执行，若在延迟时间内重新触发,则`重新计时`
     - 特点：连续操作后延迟执行 (只执行最后一次)
 
   ```js
@@ -675,8 +931,10 @@ console.log("位置分布统计:", count);
         func.apply(context, args);
       }
       timer = setTimeout(() => {
-        timer = null;
+        // 非立即执行时，延迟后执行
         if (!immediate) func.apply(context, args);
+        // 执行后清空定时器（避免immediate重复触发）
+        timer = null;
       }, delay);
     };
   }
@@ -745,11 +1003,10 @@ console.log("位置分布统计:", count);
     - 需要首次/最后一次控制时用混合版本
     - 复杂项目推荐使用 Lodash 或自行封装可配置版本
 
-#### 21、EventLoop(事件循环)是什么？
+#### 25、EventLoop(事件循环)是什么？
 
 - 概念：EventLoop 是 JS 处理异步任务的调度机制，通过循环调用栈（callStack）和 任务队列（Task Queue）实现非阻塞执行。
 - 宏任务(MacroTask)和微任务(MicroTask)分类
-
   - 宏任务由宿主环境（Node/浏览器）触发，进入宏任务队列；
     - script（整体代码）
     - setTimeout / setInterval
@@ -778,55 +1035,55 @@ console.log("位置分布统计:", count);
   - 微任务优先级优于宏任务(nodejs 相反)
 - 面试题
 
-```js
-console.log("start");
+  ```js
+  console.log("start");
 
-Promise.resolve().then(() => {
-  console.log("A1")
-    Promise.resolve()
-      .then(() => {
-        console.log("A2-1");
-      })
-      .then(() => {
-        console.log("A2-2");
-      });
-});
-
-Promise.resolve()
-  .then(() => {
-    console.log("B1-1");
-    setTimeout(() => {
-      console.log("B2");
-    }, 0);
-  })
-  .then(() => {
-    console.log("B1-2");
-  });
-
-setTimeout(() => {
-  console.log("C1");
   Promise.resolve().then(() => {
-    console.log("C2");
+    console.log("A1")
+      Promise.resolve()
+        .then(() => {
+          console.log("A2-1");
+        })
+        .then(() => {
+          console.log("A2-2");
+        });
   });
-}, 0);
 
-setTimeout(() => {
-  console.log("D1");
+  Promise.resolve()
+    .then(() => {
+      console.log("B1-1");
+      setTimeout(() => {
+        console.log("B2");
+      }, 0);
+    })
+    .then(() => {
+      console.log("B1-2");
+    });
+
   setTimeout(() => {
-    console.log("D2");
+    console.log("C1");
+    Promise.resolve().then(() => {
+      console.log("C2");
+    });
   }, 0);
-}, 0);
 
-console.log("end");
+  setTimeout(() => {
+    console.log("D1");
+    setTimeout(() => {
+      console.log("D2");
+    }, 0);
+  }, 0);
 
-上面代码的执行顺序：
-  同步代码先执行： start - end
-  微任务队列:
-    A1->A2-1 -> A2 -2
+  console.log("end");
 
-```
+  上面代码的执行顺序：
+    同步代码先执行： start - end
+    微任务队列:
+      A1->A2-1 -> A2 -2
 
-#### 22、事件冒泡与事件捕获 ？
+  ```
+
+#### 26、事件冒泡与事件捕获 ？
 
 - 事件冒泡和事件捕获是事件在 DOM 中传播的两个阶段
 - 事件流(3 个阶段)
@@ -843,15 +1100,15 @@ console.log("end");
 
 ```js
 // 捕获阶段监听（父元素）
-document.getElementById("parent").addEventListener(
-  "click",
-  () => console.log("捕获阶段：父元素被触发"),
-  true // 启用捕获模式
+document.getElementById('parent').addEventListener(
+  'click',
+  () => console.log('捕获阶段：父元素被触发'),
+  true, // 启用捕获模式
 );
 // 核心要点：冒泡：自下而上，捕获： 自上而下
 ```
 
-#### 23、事件委托？
+#### 27、事件委托？
 
 - 概念：事件委托也叫事件代理，是 JS 编程中利用`事件冒泡`优化事件处理的编程技巧，将子元素的事件监听绑定在父元素(或者外层元素上)上，借助`事件冒泡`和`e.target`统一处理多个子元素的事件。
 - 事件委托优势
@@ -861,48 +1118,46 @@ document.getElementById("parent").addEventListener(
 - 应用场景
   - 动态元素及大量同类子元素场景
 
-```html
-<ul id="oul">
-  <li data-index="1">1</li>
-  <li data-index="2">2</li>
-  <li data-index="3">3</li>
-  <li data-index="4">4</li>
-  <li data-index="5">5</li>
-</ul>
-<script>
-  let oul = document.getElementById("oul");
-  let oli = document.querySelectorAll("ul>li");
-  oul.addEventListener("click", function (e) {
-    console.log(e.target, e.currentTarget, e.currentTarget === this);
-    [...oli].forEach((el) => {
-      el.classList.remove("active");
+  ```html
+  <ul id="oul">
+    <li data-index="1">1</li>
+    <li data-index="2">2</li>
+    <li data-index="3">3</li>
+    <li data-index="4">4</li>
+    <li data-index="5">5</li>
+  </ul>
+  <script>
+    let oul = document.getElementById('oul');
+    let oli = document.querySelectorAll('ul>li');
+    oul.addEventListener('click', function (e) {
+      console.log(e.target, e.currentTarget, e.currentTarget === this);
+      [...oli].forEach((el) => {
+        el.classList.remove('active');
+      });
+      e.target.classList.add('active');
     });
-    e.target.classList.add("active");
-  });
-</script>
-```
+  </script>
+  ```
 
-> 注意区分 e.target(用户实际点击的元素) / e.currentTarget (绑定事件监听的元素，恒等于 this)
+  > 注意: 区分 e.target(用户实际点击的元素) / e.currentTarget (绑定事件监听的元素，恒等于 this)
 
-#### 24、跨域及常见解决方式？
+#### 28、跨域及常见解决方式？
 
 - 跨域本质：浏览器的`同源策略`限制，当请求的协议、域名、端口任意一个不同，浏览器会拦截响应(请求实际已发送到服务器)
 - 解决方案及优缺点
-
   - JSONP(仅支持 GET,安全性低（易受 XSS 攻击）)
-    - 本质：利用<script> 标签的跨域能力，通过回调函数接收数据
+    - 本质：利用script标签的跨域能力，通过回调函数接收数据
     - 适用场景：适用于老旧项目或需要兼容不支持 CORS 的浏览器
     ```js
     function handleResponse(data) {
-      console.log("Received:", data);
+      console.log('Received:', data);
     }
     // 服务端需支持：返回 handleResponse({ data: ... }) 格式
-    const script = document.createElement("script");
-    script.src = "http://api.example.com/data?callback=handleResponse";
+    const script = document.createElement('script');
+    script.src = 'http://api.example.com/data?callback=handleResponse';
     document.body.appendChild(script);
     ```
   - CORS(跨域资源共享)
-
     - 什么情况下需要 Cors (跨源的 HTTP 请求)
       - 由 XMLHttpReques 或者 Fetch API 发起的跨源 HTTP 请求
       - Web 字体（CSS 中通过 @font-face 使用跨源字体资源）
@@ -915,10 +1170,10 @@ document.getElementById("parent").addEventListener(
     ```js
     // Express 中间件; 服务器配置（Node）
     app.use((req, res, next) => {
-      res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // 允许的域名
-      res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE"); // 允许的方法
-      res.header("Access-Control-Allow-Headers", "Content-Type, Authorization"); // 允许的请求头
-      res.header("Access-Control-Allow-Credentials", "true"); // 允许携带 Cookie
+      res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // 允许的域名
+      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // 允许的方法
+      res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // 允许的请求头
+      res.header('Access-Control-Allow-Credentials', 'true'); // 允许携带 Cookie
       next();
     });
     ```
@@ -939,7 +1194,6 @@ document.getElementById("parent").addEventListener(
         - 不满足简单请求的条件的请求都是非简单请求，在发起真正的 HTTP 请求前，浏览器会增加一个 HTTP 预检的查询请求。确认服务器是否允许本次请求；得到浏览器的准确答复后，浏览器才会发起真正的请求。
 
   - 代理服务器(Proxy)
-
     - 本质：前端请求同域代理服务器，由代理转发至目标服务器，绕过浏览器限制；(服务器与服务器之间不存在跨域问题)
     - 开发环境 (vue/react),配置 proxy
 
@@ -947,10 +1201,10 @@ document.getElementById("parent").addEventListener(
     module.exports = {
       devServer: {
         proxy: {
-          "/api": {
-            target: "http://api.example.com",
+          '/api': {
+            target: 'http://api.example.com',
             changeOrigin: true,
-            pathRewrite: { "^/api": "" },
+            pathRewrite: { '^/api': '' },
           },
         },
       },
@@ -977,13 +1231,13 @@ document.getElementById("parent").addEventListener(
   - websocket 协议：天然支持跨域通信
 
   ```js
-  const socket = new WebSocket("ws://api.example.com");
+  const socket = new WebSocket('ws://api.example.com');
   socket.onmessage = (event) => {
-    console.log("Received:", event.data);
+    console.log('Received:', event.data);
   };
   ```
 
-#### 25、localStorage/sessionStorage/cookie 区别？
+#### 29、localStorage/sessionStorage/cookie 区别？
 
 - 生命周期不同
   - localStorage 永久存储,除非用户手动清除
@@ -1005,34 +1259,24 @@ document.getElementById("parent").addEventListener(
   - localStorage、sessionStorage 易受 XSS(恶意脚本)攻击
   - cookie 可通过设置 HttpOnly、Secure、SameSite，提高安全性
 
-#### 26、script 中的async与defer区别是什么？
- - 默认script会阻塞HTML解析： HTML解析 -> Script脚本下载 -> 执行脚本 -> 继续HTML解析
- - async属性(异步)
-   ```js
-    <script src='1.js' async></script>
-    <script src='2.js' async></script>   
-    // 1.js与2.js执行顺序无法保证。
-   ```
-   - 浏览器不会阻塞HTML解析,与HTML解析并行加载，一旦下载完成，立即阻止HTML解析，执行脚本；
-   - 多个async脚本执行顺序不可控，谁先下载完谁先执行。不适合有依赖关系的脚本。
-   - 脚本可能访问不到完整的DOM(HTML解析可能未完成)
-  
- - defer属性(延迟)
-   - 浏览器不会阻塞HTML解析,与HTML解析并行加载
-   - 在所有HTML解析完成后，按照文档顺序执行脚本；脚本能访问完整DOM；在DOMContentLoaded触发前执行。
- - 
- ```md
+#### 30、script 中的async与defer区别是什么？
 
+- 相同点：二者仅对外部JS有效，HTML解析时并行下载，不阻塞解析
+- 不同点：
+  - 执行时机:
+    - async的脚本下载完，立即执行，多个async脚本由于谁先下载完，谁先执行,所以不保证顺序；
+    - defer属性的脚本会在整体HTML解析完执行，能访问完整DOM,DOMContentLoaded触发前执行。多个脚本可保证执行顺序。
+  - 图示：
+  ```HTTP
   HTML 解析
   ├── 遇到 async/defer 脚本 → 后台下载
   ├── HTML 继续解析...
   │
   ├── async 行为：
-  │   ── 脚本下载完成 → 立即停止 HTML，执行脚本 → 恢复解析
+  │ ─ ─ 脚本下载完成 → 立即停止 HTML，执行脚本 → 恢复解析
   │
   ├── HTML 解析完成
   │
   └── defer 行为：
-      ── 按顺序执行所有 defer 脚本 → 触发 DOMContentLoaded
- ```
-    
+    ── 按顺序执行所有 defer 脚本 → 触发 DOMContentLoaded
+  ```

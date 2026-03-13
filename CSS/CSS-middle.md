@@ -1,6 +1,6 @@
-### CSS 高频面试题及知识详解
+### CSS 高级知识详解
 
-#### 1、简述一下 CSS 盒模型？
+#### 1、盒模型？
 
 - 概念：在网页中，所有元素被视为一个矩形盒子，有四部分组成，内容区(content)、内边距(padding)、边框(border)、外边距(margin).
 - 盒模型的两种模式
@@ -350,7 +350,6 @@
 
 > 圆锥渐变 conic-gradient 语法更多参考https://www.zhangxinxu.com/wordpress/2020/04/css-conic-gradient/
 
-
 #### 12、重绘(repaint)与回流(也叫重排)(reflow)
 
 - 概念： 重绘与回流是浏览器渲染引擎更新页面的两种核心策略，直接影响页面性能
@@ -368,17 +367,6 @@
   - 不影响布局的样式修改：如阴影（box-shadow）、渐变（gradient）
 
 - 性能优化策略： 如何避免或者减少重绘与回流？
-  - 减少回流的次数
-    - 批量修改DOM
-    - 使用文档碎片DocumentFragment
-    - 使用CSS transforms
-
-  ```
-
-
-
-
-
-
-
-  ```
+  - 尽量减少 DOM 操作，批量处理DOM变更
+  - 使用 transform、opacity 这些只会触发合成的属性
+  - 避免频繁操作样式，使用Class替换

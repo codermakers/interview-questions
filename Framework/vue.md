@@ -33,7 +33,7 @@ watch: {
   - 缓存组件: activated(缓存组件激活)、deactivated(缓存组件失活)
 - 使用场景
   - created 常用于数据初始化、API 请求发送
-  - mounted 常用于 API 请求发送、DOM 操作，集中第三方库
+  - mounted 常用于 API 请求发送、DOM 操作，集成第三方库
   - beforeDestroy、destroyed 常用于资源清理(清除定时器、解绑事件监听)、断开外部链接（闭 WebSocket 连接或取消未完成的 API 请求）
 - 父子组件加载生命周期钩子执行顺序
   - 加载阶段(父子组件首次渲染)
@@ -64,6 +64,7 @@ watch: {
 - 常见问题：key 属性为什么不建议是 index(索引) 而是唯一值？
   - 数据变化时，index 无法稳定识别元素。性能下降，状态错乱等
   - 示例 当一个列表有`删除`和`排序`操作，元素 index 会动态变化，Vue 会错误的复用元素导致渲染出错；
+
   ```js
   <template>
   <div>
@@ -126,11 +127,11 @@ watch: {
   - hash 模式是无需服务器配置
   - history 模式需要服务器配置
 
-  ```md
+  ```HTTP
   <!-- 需要Nginx配置：否则刷新页面404 -->
 
   location / {
-  try_files $uri $uri/ /index.html;
+    try_files $uri $uri/ /index.html;
   }
   ```
 
